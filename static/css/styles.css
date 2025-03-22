@@ -408,6 +408,42 @@ main {
     }
 }
 
+/* Navbar Styles */
+.navbar {
+    width: 100%;
+    background-color: #6f4f1f; /* Color café */
+    padding: 0.75rem 2rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 100%; /* Colocamos el navbar debajo del sidebar */
+    left: 0;
+    z-index: 999; /* Para que esté encima del contenido */
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Ajustes para el contenido principal */
+main {
+    padding: 3rem 2rem 3rem 17rem; /* Ajustamos padding para dejar espacio para el navbar y sidebar */
+    transition: padding 0.5s ease;
+}
+
+.minimize + main {
+    padding-left: 7.96rem;
+}
+
+@media(max-width:700px) {
+    main {
+        padding-left: 2rem; /* Ajuste de padding para pantallas pequeñas */
+    }
+}
 
 /*estilos de login*/
 

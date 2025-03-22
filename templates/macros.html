@@ -1,4 +1,5 @@
-<!-- templates/sidebar.html -->
+<!-- macros/sidebar.html -->
+{% macro macros() %}
 <div class="menu-btn sidebar-btn" id="sidebar-btn">
     <i class='bx bx-menu'></i>
     <i class='bx bx-x'></i>
@@ -31,7 +32,7 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="menu-item menu-item-dropdown">
+            <li class="menu-item  menu-item-dropdown">
                 <a href="#" class="menu-link">
                     <i class='bx bx-cart'></i>
                     <span>Ventas</span>
@@ -42,7 +43,7 @@
                     <li><a href="#" class="sub-menu-link">Historial</a></li>
                 </ul>
             </li>
-            <li class="menu-item menu-item-dropdown">
+            <li class="menu-item  menu-item-dropdown">
                 <a href="#" class="menu-link">
                     <i class='bx bx-shopping-bag'></i>
                     <span>Pedidos</span>
@@ -52,26 +53,7 @@
                     <li><a href="#" class="sub-menu-link">Ordenes</a></li>
                 </ul>
             </li>
-            
-            <li class="menu-item">
-                <a href="#" class="menu-link">
-                    <i class='bx bx-cookie'></i>
-                    <span>Inventario</span>
-                </a>
-            </li>
-            <li class="menu-item menu-item-dropdown">
-                <a href="#" class="menu-link">
-                    <i class='bx bxs-truck' style='color:rgba(18,18,18,0.74)'></i>
-                    <span>Proveedores</span>
-                    <i class='bx bx-chevron-down'></i>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="#" class="sub-menu-link">Ordenar</a></li>
-                    <li><a href="#" class="sub-menu-link">Agregar</a></li>
-                    <li><a href="#" class="sub-menu-link">Buscar</a></li>
-                </ul>
-            </li>
-            <li class="menu-item menu-item-dropdown">
+            <li class="menu-item  menu-item-dropdown">
                 <a href="#" class="menu-link">
                     <i class='bx bx-task'></i>
                     <span>Producción y recetas</span>
@@ -81,6 +63,24 @@
                     <li><a href="#" class="sub-menu-link">Producir</a></li>
                     <li><a href="#" class="sub-menu-link">Agregar receta</a></li>
                     <li><a href="#" class="sub-menu-link">Lista de recetas</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link">
+                    <i class='bx bx-cookie'></i>
+                    <span>Inventario</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-dropdown">
+                <a href="#" class="menu-link">
+                    <i class='bx bxs-truck' style='color:rgba(18,18,18,0.74)'  ></i>
+                    <span>Proveedores</span>
+                    <i class='bx bx-chevron-down'></i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="#" class="sub-menu-link">Ordenar</a></li>
+                    <li><a href="#" class="sub-menu-link">Agregar</a></li>
+                    <li><a href="#" class="sub-menu-link">Buscar</a></li>
                 </ul>
             </li>
             <li class="menu-item">
@@ -115,6 +115,4 @@
         </div>
     </div>
 </div>
-<main>
-    <h1>Inicio</h1>
-</main>   
+{% endmacro %}
