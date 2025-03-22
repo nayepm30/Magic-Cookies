@@ -334,6 +334,7 @@ body {
 
 /*main*/
 main {
+    z-index: 10;
     padding: 1.3rem 8rem 3rem 17rem;
     transition: padding 0.5s ease;
 }
@@ -408,27 +409,12 @@ main {
     left: 0;
     width: 100%;
     z-index: 10; /* Asegura que el navbar esté encima de otros elementos */
-    background-color: #c7a17a; /* O el color de fondo que prefieras */
+    background-color: #b4764f; /* O el color de fondo que prefieras */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  /* Sombra más fuerte */
 
 }
 
-/* Asegura que el navbar esté en la parte superior */
-/*
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;  
-    height: 60px;
-    z-index: 10; 
-    background-color: #c7a17a;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    padding: 0 1rem;
-}
-*/
+
 /* Contenedor de logo e ícono */
 .container-logo {
     display: flex;
@@ -610,7 +596,6 @@ main {
 .toggle{
     background-color: #b4764f;
     height: 100%;
-    background: linear-gradient(to right, #b4764f, #b4764f);
     color: #fff;
     position: relative;
     left: -100%;
