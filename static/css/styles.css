@@ -346,7 +346,7 @@ body {
 
 /*main*/
 main {
-    pad: 2rem 3rem 3rem 17rem;
+    padding: 1.3rem 8rem 3rem 17rem;
     transition: padding 0.5s ease;
 }
 
