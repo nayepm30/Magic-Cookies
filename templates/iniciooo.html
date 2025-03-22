@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="menu-btn sidebar-btn" id="sidebar-btn">
+        <i class='bx bx-menu'></i>
+        <i class='bx bx-x'></i>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <div class="header">
+            <button class="menu-btn" id="menu-btn">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+            <div class="brand">
+                <img src="../static/img/logo4sinfondo.png" alt="logo">
+                <span>Magic Cookie</span> 
+            </div>    
+        </div>
+        <div class="menu-container">
+            <div class="search">
+                <i class='bx bx-search'></i>
+                <input type="search" placeholder="Search">
+            </div>
+            <ul class="menu">
+                <li class="menu-item menu-item-static active">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-home'></i>
+                        <span>Inicio/Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item  menu-item-dropdown">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-shopping-bag'></i>
+                        <span>Ventas</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="#" class="sub-menu-link">Registrar</a></li>
+                        <li><a href="#" class="sub-menu-link">Historial</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item  menu-item-dropdown">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-shopping-bag'></i>
+                        <span>Pedidos</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="#" class="sub-menu-link">Ordenes</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item  menu-item-dropdown">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-task'></i>
+                        <span>Producción y recetas</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="#" class="sub-menu-link">Producir</a></li>
+                        <li><a href="#" class="sub-menu-link">Agregar receta</a></li>
+                        <li><a href="#" class="sub-menu-link">Lista de recetas</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-cookie'></i>
+                        <span>Inventario</span>
+                    </a>
+                </li>
+                <li class="menu-item menu-item-dropdown">
+                    <a href="#" class="menu-link">
+                        <i class='bx bxs-truck' style='color:rgba(18,18,18,0.74)'  ></i>
+                        <span>Proveedores</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="#" class="sub-menu-link">Ordenar</a></li>
+                        <li><a href="#" class="sub-menu-link">Agregar</a></li>
+                        <li><a href="#" class="sub-menu-link">Buscar</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-cookie'></i>
+                        <span>Materias primas</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="footer">
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-bell'></i>
+                        <span>Notificaciones</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="user">
+                <div class="user-img">
+                    <img src="../static/img/usuario.jpg" alt="User">
+                </div>
+                <div class="user-data">
+                    <span class="name">Doña Qki</span>
+                    <span class="email">cuki@email.com</span>
+                </div>
+                <div class="user-icon">
+                    <i class='bx bx-exit'></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <main>
+        <h1>Sidebar</h1>
+    </main>    
+    <script src="../static/js/scripts.js"></script>
+</body>
+</html>
