@@ -55,10 +55,11 @@
         shadow.innerHTML = `
             <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
             <style>
+                
                 .form-container {
                     margin-top: 10%; 
                 }
-                /* Estilos para el título */
+                
                 .form-title {
                     text-align: center;
                     font-size: 1.5rem;
@@ -66,13 +67,13 @@
                     margin-bottom: 1.5rem;
                     color: #1a365d; 
                 }
-
+                
                 .cantidad-container {
                     display: flex;
                     align-items: flex-end;
                     gap: 1rem;
                 }
-
+                
                 .agregar-container {
                     display: flex;
                     align-items: center;
@@ -90,9 +91,11 @@
                 }
             </style>
             <div class="form-container max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                <!-- Título del formulario -->
                 <h2 class="form-title">Realizar venta</h2>
                 <form class="max-w-3xl mx-auto">
                     <div id="rows-container">
+                        <!-- Fila inicial -->
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-5">
                             <div class="relative z-0 w-full group">
                                 <input type="text" name="producto" id="producto" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
@@ -121,6 +124,7 @@
                                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                     </svg>
+                                    <span>Agregar</span>
                                 </div>
                             </div>
                         </div>
