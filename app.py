@@ -12,7 +12,7 @@ def inicio():
 
 @app.route("/ventas")
 def ventas():
-    return render_template("ventas/ventas.html")
+    return render_template("ventas/CRUDventas.html")
 
 
 @app.route("/produccion")

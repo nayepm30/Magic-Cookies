@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');*/
 
 * {
     box-sizing: border-box;
@@ -337,6 +337,8 @@ main {
     z-index: 10;
     padding: 1.3rem 8rem 3rem 17rem;
     transition: padding 0.5s ease;
+    /*font-size: 25px;*/
+    /*font-weight: bold;*/
 }
 
 .minimize + main {
@@ -433,12 +435,12 @@ main {
     text-decoration: none;
     font-size: 30px; /* Ajusta el tamaño de la fuente del logo */
     color: #000000; /* Ajusta el color del logo */
-    font-family: 'Poppins', sans-serif;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 /*estilos de login*/
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');*/
 
 *{
     margin: 0;
@@ -660,3 +662,4 @@ main {
 #crearcuentasubir {
     margin-bottom: -36px;
 }
+
