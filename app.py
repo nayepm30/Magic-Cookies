@@ -14,7 +14,6 @@ def inicio():
 def ventas():
     return render_template("ventas/registrarVentas.html")
 
-
 @app.route("/produccion")
 def produccion():
     return render_template("produccion/produccion.html")
