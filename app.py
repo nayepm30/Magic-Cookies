@@ -22,6 +22,10 @@ def produccion():
 def proveedores():
     return render_template("proveedores/CRUDproveedores.html")
 
+@app.route("/ordenar")
+def ordenar():
+    return render_template("proveedores/ordenar.html")
+
 @app.route("/CRUDrecetas")
 def recetas():
     return render_template("recetas/CRUDrecetas.html")
