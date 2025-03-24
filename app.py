@@ -22,5 +22,9 @@ def produccion():
 def proveedores():
     return render_template("proveedores/CRUDproveedores.html")
 
+@app.route("/CRUDrecetas")
+def recetas():
+    return render_template("recetas/CRUDrecetas.html")
+
 if __name__ == "__main__":
     app.run(port=7000, debug=True)
