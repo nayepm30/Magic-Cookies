@@ -30,5 +30,13 @@ def ordenar():
 def recetas():
     return render_template("recetas/CRUDrecetas.html")
 
+@app.route("/productos")
+def invproductos():
+    return render_template("inventario/productos.html")
+
+@app.route("/materiasPrimas")
+def matPrimas():
+    return render_template("materiasPrimas/materiasPrimas.html")
+
 if __name__ == "__main__":
     app.run(port=7000, debug=True)

@@ -491,7 +491,7 @@ main {
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 3%;
     cursor: pointer;
 }
 
@@ -644,22 +644,24 @@ main {
 }
 
 .img-arriba {
-    margin-top: -55px;
+    margin-top: -17%;
 }
 
 .label-contraseña {
-    margin-left: -13.5rem;
+    margin-left: -71.5%;
 }
 
 .label-usuario {
-    margin-left: -16rem;
+    margin-left:-85.5%;
 }
 
 #register {
-    margin-top: 1px; /* Sube el botón 10px */
+    margin-top: -1%; 
 }
 
+
+
 #crearcuentasubir {
-    margin-bottom: -36px;
+    margin-bottom: -12%;
 }
 
