@@ -410,12 +410,11 @@ main {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 10; /* Asegura que el navbar esté encima de otros elementos */
+    z-index: 1; /* Asegura que el navbar esté encima de otros elementos */
     background-color: #b4764f; /* O el color de fondo que prefieras */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  /* Sombra más fuerte */
 
 }
-
 
 /* Contenedor de logo e ícono */
 .container-logo {
@@ -658,8 +657,6 @@ main {
 #register {
     margin-top: -1%; 
 }
-
-
 
 #crearcuentasubir {
     margin-bottom: -12%;

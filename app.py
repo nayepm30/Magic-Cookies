@@ -38,5 +38,9 @@ def invproductos():
 def matPrimas():
     return render_template("materiasPrimas/materiasPrimas.html")
 
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard/dashboard.html")
+
 if __name__ == "__main__":
     app.run(port=7000, debug=True)
