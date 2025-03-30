@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <link rel="stylesheet" href="../static/css/sidebar.css">
+    <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="../static/css/forms.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container-logo">
+            <img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="Magic Cookie Logo" class="logo-img">
+            <h1 class="logo"><a href="/">MAGIC COOKIES</a></h1>
+        </div>
+    </nav> 
+    <div class="sidebar" id="sidebar">
+        <div class="header">
+            <button class="menu-btn" id="menu-btn">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+            <div class="brand">
+                <img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="logo">
+                <span>Magic Cookies</span> 
+            </div>    
+        </div>
+        <div class="menu-container">
+            <ul class="menu">
+                <li class="menu-item menu-item-static active">
+                    <a href="/inicio" class="menu-link">
+                        <i class='bx bx-home'></i>
+                        <span>Inicio</span>
+                    </a>
+                </li> 
+                <li class="menu-item menu-item-dropdown">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-cart'></i>
+                        <span>Ventas</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </a>
+                    <ul class="sub-menu">
+
+                        <li><a href="/registrar" class="sub-menu-link">Registrar</a></li>
+                        <li><a href="#" class="sub-menu-link">Historial</a></li>
+                        <li><a href="#" class="sub-menu-link">Realizar corte</a></li>
+                        <li><a href="#" class="sub-menu-link">Ventas en linea</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item menu-item-dropdown">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-cookie'></i>
+                        <span>Inventario</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="/productos" class="sub-menu-link">Productos</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item menu-item-dropdown">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-task'></i>
+                        <span>Recetas</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="/CRUDrecetas" class="sub-menu-link">Administrar</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item menu-item-dropdown">
+                    <a href="#" class="menu-link">
+                        <i class='bx bxs-truck'></i>
+                        <span>Proveedores</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="/CRUDproveedores" class="sub-menu-link">Administrar</a></li>
+                        <li><a href="/ordenar" class="sub-menu-link">Ordenar</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item menu-item-dropdown">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-cookie'></i>
+                        <span>Materias primas</span>
+                        <i class='bx bx-chevron-down'></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="/materiasPrimas" class="sub-menu-link">Inventario</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="footer">
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class='bx bx-user-plus' ></i>
+                        <span>Añadir usuario</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="user">
+                <div class="user-img">
+                    <img src="{{ url_for('static', filename='img/usuario.jpg') }}" alt="User">
+                </div>
+                <div class="user-data">
+                    <span class="name">Doña Qki</span>
+                    <span class="email">cuki@email.com</span>
+                </div>
+                <a href="/" class="user-icon">
+                    <i class='bx bx-exit'></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <main>
+        <h1>Inicio</h1>
+        <main> 
+            {% block content %}{% endblock %}
+        </main>
+        
+    </main>    
+    <script src="../static/js/scripts.js"></script>
+</body>
+</html>

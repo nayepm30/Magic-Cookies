@@ -1,0 +1,31 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1; /* Asegura que el navbar esté encima de otros elementos */
+    background-color: #b4764f; /* O el color de fondo que prefieras */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  /* Sombra más fuerte */
+
+}
+
+/* Contenedor de logo e ícono */
+.container-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra los elementos dentro del contenedor */
+}
+
+/* Estilo de la imagen del logo */
+.logo-img {
+    height: 100px; /* Ajusta según el tamaño de tu logo */
+    margin-right: -5px; /* Ajusta el espacio entre el logo y el texto */
+}
+
+/* Estilo del texto del logo */
+.logo a {
+    text-decoration: none;
+    font-size: 30px; /* Ajusta el tamaño de la fuente del logo */
+    color: #000000; /* Ajusta el color del logo */
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
