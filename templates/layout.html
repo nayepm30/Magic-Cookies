@@ -20,9 +20,11 @@
     </nav> 
     <div class="sidebar" id="sidebar">
         <div class="header">
+            <!--
             <button class="menu-btn" id="menu-btn">
                 <i class='bx bx-chevron-left'></i>
             </button>
+            -->
             <div class="brand">
                 <img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="logo">
                 <span>Magic Cookies</span> 
@@ -117,11 +119,8 @@
         </div>
     </div>
     <main>
-        <h1>Inicio</h1>
-        <main> 
-            {% block content %}{% endblock %}
-        </main>
-        
+        <h1></h1>
+        {% block content %}{% endblock %}
     </main>    
     <script src="../static/js/scripts.js"></script>
 </body>

@@ -29,6 +29,11 @@ body {
     flex-direction: column;
 }
 
+h1 {
+    font-size: 150%;
+    font-weight: bold;
+}
+
 /*sidebar*/
 .sidebar {
     position: fixed;

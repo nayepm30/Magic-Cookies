@@ -1,3 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Productos</h1>
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h2>Productos</h2>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="py-2 px-4 border-b">Producto</th>
+                    <th class="py-2 px-4 border-b">Cantidad</th>
+                    <th class="py-2 px-4 border-b">Presentación</th>
+                    <th class="py-2 px-4 border-b">Costo</th>
+                    <th class="py-2 px-4 border-b">Disponibilidad</th>
+                    <th class="py-2 px-4 border-b">Ordenar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
+                    <td class="py-2 px-4 border-b">10</td>
+                    <td class="py-2 px-4 border-b">Litros</td>
+                    <td class="py-2 px-4 border-b">$50</td>
+                    <td class="py-2 px-4 border-b">Disponible</td>
+                    <td class="py-2 px-4 border-b">
+                        <button class="order-btn">Ordenar</button>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
+                    <td class="py-2 px-4 border-b">10</td>
+                    <td class="py-2 px-4 border-b">Litros</td>
+                    <td class="py-2 px-4 border-b">$50</td>
+                    <td class="py-2 px-4 border-b">Se esta agotando</td>
+                    <td class="py-2 px-4 border-b">
+                        <button class="order-btn">Ordenar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
+                    <td class="py-2 px-4 border-b">10</td>
+                    <td class="py-2 px-4 border-b">Litros</td>
+                    <td class="py-2 px-4 border-b">$50</td>
+                    <td class="py-2 px-4 border-b">No disponible</td>
+                    <td class="py-2 px-4 border-b">
+                        <button class="order-btn">Ordenar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+<!--
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -130,3 +186,4 @@
 
 </body>
 </html>
+-->
