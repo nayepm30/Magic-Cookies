@@ -46,5 +46,9 @@ def matPrimas():
 def dashboard():
     return render_template("dashboard/dashboard.html")
 
+@app.route("/galletas")
+def galletas():
+    return render_template("galletas.html")
+
 if __name__ == "__main__":
     app.run(port=7000, debug=True)
