@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport"content="width=device-width, initial-scale=1.0"/>
+		<title>MAGIC COOKIE</title>
+		<link rel="stylesheet" href="../static/css/index.css" />
+        <link rel="stylesheet" href="../static/css/galletas.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	</head>
+	<body>
+		<header>
+			<div class="container-hero">
+				<div class="container hero">
+					<div class="container-logo">
+						<img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="logo">
+						<h1 class="logo"><a href="/">MAGIC COOKIES</a></h1>
+					</div>
+
+					<div class="container-user">
+						<span class="text" onclick="window.location.href='login'">Iniciar sesión o  crear cuenta</span>
+						<i class="fa-solid fa-user"></i>
+						<i class="fa-solid fa-basket-shopping"></i>
+						<div class="content-shopping-cart">
+							<span class="text" onclick="window.location.href='carrito'">Carrito</span>
+							<span class="number">(0)</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container-navbar">
+				<nav class="navbar container">
+					<i class="fa-solid fa-bars"></i>
+					<ul class="menu">
+						<li><a href="/">Inicio</a></li>
+						<li><a href="/galletas">Galletas</a></li>
+                        <li><a href="/presentaciones">Presentaciones</a></li>
+						<li><a href="#">Sobre nosotros</a></li>
+						<li><a href="#">Ubicación</a></li>
+					</ul>
+
+					<form class="search-form">
+						<input type="search" placeholder="Buscar..." />
+						<button class="btn-search">
+							<i class="fa-solid fa-magnifying-glass"></i>
+						</button>
+					</form>
+				</nav>
+			</div>
+		</header>
+        <section class="container specials">
+            <br>
+            <h1 class="heading-1">Presentaciones</h1>
+            <div class="product-grid">
+                <!-- Presentación 1: Piezas -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/galleta_pieza.png') }}" alt="Piezas">
+                    </div>
+                    <div class="content-card-product">
+                        <h3>Piezas</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="pieza">1 Pieza - $4.60</option>
+                                <option value="docena">Docena - $50.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Presentación 2: Gramos -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/galletas_almendras.jpg') }}" alt="Gramos">
+                    </div>
+                    <div class="content-card-product">
+                        <h3>Gramos</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="100g">100g - $5.70</option>
+                                <option value="250g">250g - $12.00</option>
+                                <option value="500g">500g - $22.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Presentación 3: Bolsas de 700 gr -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/galletas_700gr.png') }}" alt="Bolsas de 700 gr">
+                    </div>
+                    <div class="content-card-product">
+                        <h3>Bolsas de 700 gr</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="700g">700g - $12.00</option>
+                                <option value="2x700g">2 Bolsas - $22.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Presentación 4: Bolsas de 1 kg -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/galletas_bolsa.png') }}" alt="Bolsas de 1 kg">
+                    </div>
+                    <div class="content-card-product">
+                        <h3>Bolsas de 1 kg</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="1kg">1kg - $50.00</option>
+                                <option value="2kg">2kg - $95.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+	</body>
+</html>

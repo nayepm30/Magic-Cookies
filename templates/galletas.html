@@ -4,6 +4,241 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport"content="width=device-width, initial-scale=1.0"/>
+		<title>Magic Cookies</title>
+		<link rel="stylesheet" href="../static/css/index.css" />
+        <link rel="stylesheet" href="../static/css/galletas.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="../static/js/carrito.js"></script>
+    </head>
+	<body>
+		<header>
+			<div class="container-hero">
+				<div class="container hero">
+					<div class="container-logo">
+						<img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="logo">
+						<h1 class="logo"><a href="/">MAGIC COOKIES</a></h1>
+					</div>
+
+					<div class="container-user">
+						<span class="text" onclick="window.location.href='login'">Iniciar sesión o crear cuenta</span>
+						<i class="fa-solid fa-user"></i>
+						<i class="fa-solid fa-basket-shopping"></i>
+						<div class="content-shopping-cart">
+							<span class="text" onclick="window.location.href='carrito'">Carrito</span>
+							<span class="number">(0)</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container-navbar">
+				<nav class="navbar container">
+					<i class="fa-solid fa-bars"></i>
+					<ul class="menu">
+						<li><a href="/">Inicio</a></li>
+						<li><a href="/galletas">Galletas</a></li>
+                        <li><a href="/presentaciones">Presentaciones</a></li>
+						<li><a href="#">Sobre nosotros</a></li>
+						<li><a href="#">Ubicación</a></li>
+					</ul>
+
+					<form class="search-form">
+						<input type="search" placeholder="Buscar..." />
+						<button class="btn-search">
+							<i class="fa-solid fa-magnifying-glass"></i>
+						</button>
+					</form>
+				</nav>
+			</div>
+		</header>
+
+		<section class="container products-section">
+            <h1 class="heading-1">Nuestros Productos</h1>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/galleta_menta.png') }}" alt="Galleta de Menta">
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars"></div>
+                        <h3>Galleta de menta</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="pieza">1 Pieza - $4.60</option>
+                                <option value="700g">700g - $12.00</option>
+                                <option value="1kg">1kg - $50.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/galleta_cacahuate.png') }}" alt="Galleta de Cacahuate">
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars"></div>
+                        <h3>Galleta de cacahuate</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="pieza">1 Pieza - $4.60</option>
+                                <option value="700g">700g - $12.00</option>
+                                <option value="1kg">1kg - $50.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/Galletas_frambuesaa.png') }}" alt="Galleta de Frambuesa">
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars"></div>
+                        <h3>Galleta de frambuesa</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="pieza">1 Pieza - $4.60</option>
+                                <option value="700g">700g - $12.00</option>
+                                <option value="1kg">1kg - $50.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/Galleta_almandras.png') }}" alt="Galleta de Almendras">
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars"></div>
+                        <h3>Galleta de almendras</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="pieza">1 Pieza - $4.60</option>
+                                <option value="700g">700g - $12.00</option>
+                                <option value="1kg">1kg - $50.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/Galleta_platanoo.png') }}" alt="Galleta de Plátano">
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars"></div>
+                        <h3>Galleta de plátano</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="pieza">1 Pieza - $4.60</option>
+                                <option value="700g">700g - $12.00</option>
+                                <option value="1kg">1kg - $50.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='img/miel.png') }}" alt="Galleta de Miel">
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars"></div>
+                        <h3>Galleta de miel</h3>
+                        <div class="product-presentations">
+                            <label for="presentation">Presentación:</label>
+                            <select class="presentation-select">
+                                <option value="pieza">1 Pieza - $4.60</option>
+                                <option value="700g">700g - $12.00</option>
+                                <option value="1kg">1kg - $50.00</option>
+                            </select>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <label class="quantity-label" for="quantity">Cantidad:</label>
+                            <input type="number" class="quantity-input" min="1" value="1">
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+               
+	</body>
+</html>
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport"content="width=device-width, initial-scale=1.0"/>
 		<title>Baristas</title>
 		<link rel="stylesheet" href="../static/css/index.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -35,7 +270,7 @@
 					<ul class="menu">
 						<li><a href="/">Inicio</a></li>
 						<li><a href="/galletas">Galletas</a></li>
-                        <li><a href="#">Presentaciones</a></li>
+                        <li><a href="/presentaciones">Presentaciones</a></li>
 						<li><a href="#">Sobre nosotros</a></li>
 						<li><a href="#">Ubicación</a></li>
 					</ul>
@@ -53,7 +288,6 @@
             <br>
             <h1 class="heading-1">Nuestros Productos</h1>
             <div class="container-products">
-                <!-- Producto 1 -->
                 <div class="card-product">
                     <div class="container-img">
                         <img src="../static/img/galleta_menta.png" alt="Cafe Irish" />
@@ -75,9 +309,10 @@
                             <i class="fa-regular fa-star"></i>
                         </div>
                         <h3>Galleta de menta</h3>
-                        <span class="add-cart">
+                        <a href="/pedidos" class="add-cart">
                             <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
+                        </a>
+                        
                         <p class="price">$4.60</p>
                     </div>
                 </div>
@@ -414,3 +649,4 @@
         
 	</body>
 </html>
+-->

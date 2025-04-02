@@ -52,139 +52,53 @@
     </div>
 </div>
 
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h2>Ordenar</h2>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="py-2 px-4 border-b">Producto</th>
+                    <th class="py-2 px-4 border-b">Cantidad</th>
+                    <th class="py-2 px-4 border-b">Presentación</th>
+                    <th class="py-2 px-4 border-b">Costo</th>
+                    <th class="py-2 px-4 border-b">Disponibilidad</th>
+                    <th class="py-2 px-4 border-b">Ordenar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
+                    <td class="py-2 px-4 border-b">10</td>
+                    <td class="py-2 px-4 border-b">Litros</td>
+                    <td class="py-2 px-4 border-b">$50</td>
+                    <td class="py-2 px-4 border-b">Disponible</td>
+                    <td class="py-2 px-4 border-b">
+                        <button class="order-btn">Ordenar</button>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
+                    <td class="py-2 px-4 border-b">10</td>
+                    <td class="py-2 px-4 border-b">Litros</td>
+                    <td class="py-2 px-4 border-b">$50</td>
+                    <td class="py-2 px-4 border-b">Se esta agotando</td>
+                    <td class="py-2 px-4 border-b">
+                        <button class="order-btn">Ordenar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
+                    <td class="py-2 px-4 border-b">10</td>
+                    <td class="py-2 px-4 border-b">Litros</td>
+                    <td class="py-2 px-4 border-b">$50</td>
+                    <td class="py-2 px-4 border-b">No disponible</td>
+                    <td class="py-2 px-4 border-b">
+                        <button class="order-btn">Ordenar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
-
-<!--
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="stylesheet" href="../../static/css/styles.css">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-</head>
-<body>
-
-    {% from "macros.html" import macros %}
-    
-    {{ macros() }}
-
-    <main class="p-6">
-        <h1 class="text-center text-2xl font-bold mb-6">Ordenar</h1>
-        <div id="flowbite-form-container"></div>
-    </main>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const container = document.getElementById('flowbite-form-container');
-            const shadow = container.attachShadow({ mode: 'open' });
-
-            shadow.innerHTML = `
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
-                <style>
-                    .table-container {
-                        margin-top: 5%;
-                        padding: 20px;
-                        border-radius: 8px;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                        background: #fff;
-                    }
-
-                    .table-container h2 {
-                        text-align: center;
-                        font-size: 1.5rem;
-                        font-weight: bold;
-                        margin-bottom: 1rem;
-                    }
-
-                    .table-container table {
-                        width: 100%;
-                        border-collapse: collapse;
-                    }
-
-                    .table-container th,
-                    .table-container td {
-                        padding: 10px;
-                        text-align: center;
-                        border-bottom: 1px solid #e5e7eb;
-                    }
-
-                    .table-container th {
-                        background-color: #f3f4f6;
-                        font-weight: bold;
-                    }
-
-                    .order-btn {
-                        background-color: #1d4ed8;
-                        color: white;
-                        padding: 6px 12px;
-                        border: none;
-                        border-radius: 4px;
-                        cursor: pointer;
-                        transition: background 0.3s;
-                    }
-
-                    .order-btn:hover {
-                        background-color: #2563eb;
-                    }
-                </style>
-
-                <div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
-                    <h2>Ordenar</h2>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white border border-gray-300">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="py-2 px-4 border-b">Producto</th>
-                                    <th class="py-2 px-4 border-b">Cantidad</th>
-                                    <th class="py-2 px-4 border-b">Presentación</th>
-                                    <th class="py-2 px-4 border-b">Costo</th>
-                                    <th class="py-2 px-4 border-b">Disponibilidad</th>
-                                    <th class="py-2 px-4 border-b">Ordenar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
-                                    <td class="py-2 px-4 border-b">10</td>
-                                    <td class="py-2 px-4 border-b">Litros</td>
-                                    <td class="py-2 px-4 border-b">$50</td>
-                                    <td class="py-2 px-4 border-b">Disponible</td>
-                                    <td class="py-2 px-4 border-b">
-                                        <button class="order-btn">Ordenar</button>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
-                                    <td class="py-2 px-4 border-b">10</td>
-                                    <td class="py-2 px-4 border-b">Litros</td>
-                                    <td class="py-2 px-4 border-b">$50</td>
-                                    <td class="py-2 px-4 border-b">Se esta agotando</td>
-                                    <td class="py-2 px-4 border-b">
-                                        <button class="order-btn">Ordenar</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
-                                    <td class="py-2 px-4 border-b">10</td>
-                                    <td class="py-2 px-4 border-b">Litros</td>
-                                    <td class="py-2 px-4 border-b">$50</td>
-                                    <td class="py-2 px-4 border-b">No disponible</td>
-                                    <td class="py-2 px-4 border-b">
-                                        <button class="order-btn">Ordenar</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        });
-    </script>
-
-    <script src="../../static/js/scripts.js"></script>
-
-</body>
-</html>
--->

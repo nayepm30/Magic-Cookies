@@ -7,7 +7,7 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0"
 		/>
-		<title>Baristas</title>
+		<title>MAGIC COOKIE</title>
 		<link rel="stylesheet" href="../static/css/index.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
@@ -25,7 +25,7 @@
 						<i class="fa-solid fa-user"></i>
 						<i class="fa-solid fa-basket-shopping"></i>
 						<div class="content-shopping-cart">
-							<span class="text">Carrito</span>
+							<span class="text" onclick="window.location.href='carrito'">Carrito</span>
 							<span class="number">(0)</span>
 						</div>
 					</div>
@@ -38,8 +38,9 @@
 					<ul class="menu">
 						<li><a href="/">Inicio</a></li>
 						<li><a href="/galletas">Galletas</a></li>
+						<li><a href="/presentaciones">Presentaciones</a></li>
 						<li><a href="#">Sobre nosotros</a></li>
-						<li><a href="#">Presentaciones</a></li>
+						
 						<li><a href="#">Ubicación</a></li>
 					</ul>
 
@@ -57,7 +58,7 @@
 			<div class="content-banner">
 				<p>Las mejores galletas</p>
 				<h2>100% Naturales </h2>
-				<a href="#">Comprar ahora</a>
+				<a href="/galletas">Comprar ahora</a>
 			</div>
 		</section>
 
@@ -101,8 +102,15 @@
 
 				<div class="container-options">
 					<span class="active">Destacados</span>
-					<span>Ver Todos</span>
+					<span id="verTodos">Ver Todos</span>
 				</div>
+				
+				<script>
+					document.getElementById("verTodos").addEventListener("click", function() {
+						window.location.href = "/galletas";
+					});
+				</script>
+				
 
 				<div class="container-products">
 
@@ -133,10 +141,9 @@
 							<span class="add-cart">
 								<i class="fa-solid fa-basket-shopping"></i>
 							</span>
-							<p class="price">$4.60 <span>$5.30</span></p>
+							<p class="price">$4.60 </p>
 						</div>
 					</div>
-					<!-- Producto 2 -->
 					<div class="card-product">
 						<div class="container-img">
 							<img
@@ -204,7 +211,6 @@
 							<p class="price">$3.20</p>
 						</div>
 					</div>
-					<!--  -->
 					<div class="card-product">
 						<div class="container-img">
 							<img src="../static/img/galletas_cafee.png" alt="Cafe Helado" />
