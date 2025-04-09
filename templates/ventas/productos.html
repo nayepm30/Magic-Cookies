@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br><br>
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8">  
+    <h2 class="form-title">Productos en el inventario</h2>  
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Nombre</th>                
+                <th class="px-4 py-2 border-b">Presentación</th>        
+                <th class="px-4 py-2 border-b">Precio</th>
+                <th class="px-4 py-2 border-b">Cantidad en Stock</th>
+                <th class="px-4 py-2 border-b">Fecha de Produccion</th>
+                <th class="px-4 py-2 border-b">Fecha de Caducidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}               
+                <tr>                    
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.tipo }}</td>
+                    <td>{{ producto.precio }}</td>
+                    <td>{{ producto.cantidad_stock }}</td>
+                    <td>{{ producto.fecha_produccion }}</td>
+                    <td>{{ producto.fecha_caducidad }}</td>
+                </tr>                                
+            {% endfor %}
+        </tbody>
+    </table>                    
+</div>
+{% endblock %}

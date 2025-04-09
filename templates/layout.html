@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidebar</title>
+    <title>Magic Cookies</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link rel="stylesheet" href="../static/css/sidebar.css">
@@ -33,7 +33,7 @@
         <div class="menu-container">
             <ul class="menu">
                 <li class="menu-item menu-item-static active">
-                    <a href="/inicio" class="menu-link">
+                    <a href="/inicio/inicio" class="menu-link">
                         <i class='bx bx-home'></i>
                         <span>Inicio</span>
                     </a>
@@ -46,10 +46,11 @@
                     </a>
                     <ul class="sub-menu">
 
-                        <li><a href="/registrar" class="sub-menu-link">Registrar</a></li>
-                        <li><a href="#" class="sub-menu-link">Historial</a></li>
-                        <li><a href="#" class="sub-menu-link">Realizar corte</a></li>
-                        <li><a href="#" class="sub-menu-link">Ventas en linea</a></li>
+                        <li><a href="{{ url_for('ventas.registrar') }}" class="sub-menu-link">Registrar</a></li>
+                        <li><a href="{{ url_for('ventas.historialFull') }}" class="sub-menu-link">Historial Completo</a></li>
+                        <li><a href="{{ url_for('ventas.historialMini') }}" class="sub-menu-link">Historial Compacto</a></li>
+                        <li><a href="{{ url_for('ventas.corte') }}" class="sub-menu-link">Realizar corte</a></li>
+                        <li><a href="{{ url_for('ventas.pedidos') }}" class="sub-menu-link">Ventas en linea</a></li>
                     </ul>
                 </li>
                 <li class="menu-item menu-item-dropdown">
@@ -59,7 +60,10 @@
                         <i class='bx bx-chevron-down'></i>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="/productos" class="sub-menu-link">Productos</a></li>
+                        <li><a href="{{ url_for('ventas.productos') }}" class="sub-menu-link">Productos</a></li>
+                        <li><a href="{{ url_for('mermas.historial') }}" class="sub-menu-link">Mermas</a></li>
+                        <li><a href="{{ url_for('mermas.mermaProductos') }}" class="sub-menu-link">Mermas de Productos</a></li>
+                        <li><a href="{{ url_for('mermas.mermaInsumos') }}" class="sub-menu-link">Mermas de Insumos</a></li>
                     </ul>
                 </li>
                 <li class="menu-item menu-item-dropdown">
@@ -69,7 +73,7 @@
                         <i class='bx bx-chevron-down'></i>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="/CRUDrecetas" class="sub-menu-link">Administrar</a></li>
+                        <li><a href="{{ url_for('recetas.nuevaReceta') }}" class="sub-menu-link">Nueva Receta</a></li>                        
                     </ul>
                 </li>
                 <li class="menu-item menu-item-dropdown">
@@ -79,7 +83,8 @@
                         <i class='bx bx-chevron-down'></i>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="/produccion" class="sub-menu-link">Producir</a></li>
+                        <li><a href="{{ url_for('produccion.recetas') }}" class="sub-menu-link">Producir</a></li>
+                    -
                     </ul>
                 </li>
                 <li class="menu-item menu-item-dropdown">
@@ -89,8 +94,8 @@
                         <i class='bx bx-chevron-down'></i>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="/CRUDproveedores" class="sub-menu-link">Administrar</a></li>
-                        <li><a href="/ordenar" class="sub-menu-link">Ordenar</a></li>
+                        <li><a href="{{ url_for('proveedores.nuevo') }}" class="sub-menu-link">Nuevo Proveedor</a></li>
+                        <li><a href="{{ url_for('proveedores.ordenar') }}" class="sub-menu-link">Ordenar</a></li>                    
                     </ul>
                 </li>
                 <li class="menu-item menu-item-dropdown">
@@ -100,7 +105,7 @@
                         <i class='bx bx-chevron-down'></i>
                     </a>
                     <ul class="sub-menu">
-                        <li><a href="/materiasPrimas" class="sub-menu-link">Inventario</a></li>
+                        <li><a href="{{ url_for('materia.funcion') }}" class="sub-menu-link">Inventario</a></li>
                     </ul>
                 </li>
                 
@@ -109,9 +114,9 @@
         <div class="footer">
             <ul class="menu">
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{ url_for('usuarios.usuario') }}" class="menu-link">
                         <i class='bx bx-user-plus' ></i>
-                        <span>Añadir usuario</span>
+                        <span>Usuarios</span>
                     </a>
                 </li>
             </ul>
@@ -120,10 +125,11 @@
                     <img src="{{ url_for('static', filename='img/usuario.jpg') }}" alt="User">
                 </div>
                 <div class="user-data">
-                    <span class="name">Doña Qki</span>
-                    <span class="email">cuki@email.com</span>
+                    <span class="name">{{ current_user.nombre }} {{ current_user.apellido }}</span>
+                    <span class="email">{{ current_user.rol }}</span>
+                    <span class="email">{{ current_user.email }}</span>
                 </div>
-                <a href="/" class="user-icon">
+                <a href="{{ url_for('auth.logout') }}" class="user-icon">
                     <i class='bx bx-exit'></i>
                 </a>
             </div>

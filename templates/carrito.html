@@ -1,55 +1,441 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport"content="width=device-width, initial-scale=1.0"/>
-		<title>Magic Cookies</title>
-		<link rel="stylesheet" href="../static/css/index.css" />
-        <link rel="stylesheet" href="../static/css/pedidos.css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	</head>
-	<body>
-		<header>
-			<div class="container-hero">
-				<div class="container hero">
-					<div class="container-logo">
-						<img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="logo">
-						<h1 class="logo"><a href="/">MAGIC COOKIES</a></h1>
-					</div>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - Magic Cookies</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/carrito.css">
+    <link rel="stylesheet" href="../static/css/pedidos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container-hero">
+            <div class="container hero">
+                <div class="container-logo">
+                    <img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="logo">
+                    <h1 class="logo"><a href="/">MAGIC COOKIES</a></h1>
+                </div>
 
-					<div class="container-user">
-						<span class="text" onclick="window.location.href='login'">Iniciar sesión o crear cuenta</span>
-						<i class="fa-solid fa-user"></i>
-						<i class="fa-solid fa-basket-shopping"></i>
-						<div class="content-shopping-cart">
-							<span class="text" onclick="window.location.href='carrito'">Carrito</span>
-							<span class="number">(0)</span>
-						</div>
-					</div>
-				</div>
-			</div>
+                <div class="container-user">
+                    {% if current_user.is_authenticated %}
+                    <div class="user-dropdown" id="userDropdown">
+                            <span class="name">{{ current_user.nombre }} {{ current_user.apellido }} <i class="fa-solid fa-chevron-down"></i></span>
+                            <i class="fa-solid fa-user"></i>
+                            <div class="dropdown-content">
+                                <a href="/carrito/mis-pedidos">Mis pedidos</a>  
+                                <a href="/logout">Cerrar sesión</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <span class="text" onclick="window.location.href='/login'">Iniciar sesión o crear cuenta</span>
+                        <i class="fa-solid fa-user"></i>
+                    {% endif %}
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <div class="content-shopping-cart">
+                        <span class="text" onclick="window.location.href='/carrito/carrito'">Carrito</span>
+                        <span class="number">(0)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-			<div class="container-navbar">
-				<nav class="navbar container">
-					<i class="fa-solid fa-bars"></i>
-					<ul class="menu">
-						<li><a href="/">Inicio</a></li>
-						<li><a href="/galletas">Galletas</a></li>
-                        <li><a href="/presentaciones">Presentaciones</a></li>
-						<li><a href="#">Sobre nosotros</a></li>
-						<li><a href="#">Ubicación</a></li>
-					</ul>
+        <div class="container-navbar">
+            <nav class="navbar container">
+                <i class="fa-solid fa-bars"></i>
+                <ul class="menu">
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/carrito/galletas">Galletas</a></li>
+                    <li><a href="/carrito/sobre_nosotros">Sobre nosotros</a></li>
+                    <li><a href="/carrito/ubicacion">Ubicación</a></li>
+                </ul>
 
-					<form class="search-form">
-						<input type="search" placeholder="Buscar..." />
-						<button class="btn-search">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</form>
-				</nav>
-			</div>
-		</header>
+                <br>
+                <br>
+                <br>
+            </nav>
+        </div>
+    </header>
 
-	</body>
+    <main class="cart-container">
+        <h1 class="cart-title">Tu Carrito de Compras</h1>
+        
+        <div class="cart-content">
+
+            <div class="cart-items">
+                {% for producto in productos %}
+                <div class="cart-item" 
+                    data-id="{{ producto.id }}"
+                    data-presentacion="{{ producto.presentacion }}">
+                    <div class="item-image">
+                        <img src="{{ url_for('static', filename='imagenes_productos/' + producto.imagen) }}" alt="{{ producto.nombre }}">
+                    </div>
+                    <div class="item-details">
+                        <h3>{{ producto.nombre }}</h3>
+                        <p class="item-presentation">Presentación: {{ producto.presentacion }}</p>
+                        <div class="item-price">${{ "%.2f"|format(producto.precio_unitario) }}</div>
+                        <div class="item-quantity">
+                            <button class="quantity-btn minus">-</button>
+                            <span class="quantity">{{ producto.cantidad }}</span>
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                    </div>
+                    <div class="item-subtotal">${{ "%.2f"|format(producto.subtotal) }}</div>
+                    <button class="item-remove">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                {% else %}
+                <div class="empty-cart-message">
+                    <p>Tu carrito está vacío</p>
+                    <a href="/carrito/galletas" class="btn-continue-shopping">Ir a comprar</a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="order-summary">
+                <h2>Resumen del Pedido</h2>
+                
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>${{ "%.2f"|format(total) }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Envío</span>
+                        <span>Recoger en tienda</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span>${{ "%.2f"|format(total) }}</span>
+                    </div>
+                </div>
+
+                <div class="pickup-date">
+                    <label for="pickupDate">Fecha de recolección:</label>
+                    <input type="date" id="pickupDate" name="pickupDate" min="" required>
+                    <small>Tienes 3 dias para recoger tu producto</small>
+                </div>
+
+                <div class="payment-options">
+                    <h3>Método de Pago</h3>
+                    <div class="payment-methods">
+                        <label class="payment-method">
+                            <input type="radio" name="payment" checked>
+                            <i class="fas fa-money-bill-wave"></i> Efectivo al recoger
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn-checkout">Confirmar pedido</button>
+                <button class="btn-continue-shopping" onclick="window.location.href='/carrito/galletas'">
+                    Seguir Comprando
+                </button>
+            </div>
+        </div>
+    </main>
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+    // Elementos del DOM
+    const cartItemsContainer = document.querySelector(".cart-items");
+    const subtotalSpan = document.querySelector(".summary-details .summary-row:first-child span:last-child");
+    const totalSpan = document.querySelector(".summary-details .summary-row.total span:last-child");
+    const cartNumber = document.querySelector(".content-shopping-cart .number");
+    
+    if (cartItemsContainer.children.length > 0) {
+        setupCartEventListeners();
+        updateCartSummary();
+    }
+    
+    setupPickupDate();
+    
+    function showCustomAlert(message, type = 'success') {
+        const alert = document.createElement('div');
+        alert.className = `custom-alert ${type}`;
+        
+        const icon = type === 'success' ? 
+            '<i class="fas fa-check-circle"></i>' : 
+            '<i class="fas fa-exclamation-circle"></i>';
+        
+        alert.innerHTML = `${icon}${message}`;
+        document.body.appendChild(alert);
+        
+        setTimeout(() => {
+            alert.remove();
+        }, 3500);
+    }
+    
+    function setupCartEventListeners() {
+        cartItemsContainer.addEventListener("click", async function(e) {
+            const itemElement = e.target.closest(".cart-item");
+            if (!itemElement) return;
+            
+            const productoId = itemElement.dataset.id;
+            const presentacion = itemElement.dataset.presentacion;
+            
+
+            if (e.target.closest(".quantity-btn")) {
+                const quantityElement = itemElement.querySelector(".quantity");
+                let cantidad = parseInt(quantityElement.textContent);
+                
+                if (e.target.closest(".plus")) {
+                    cantidad++;
+                } else if (e.target.closest(".minus") && cantidad > 1) {
+                    cantidad--;
+                }
+                
+                await updateCartItem(productoId, presentacion, cantidad, itemElement);
+            }
+            
+   
+            if (e.target.closest(".item-remove")) {
+                await removeCartItem(productoId, presentacion, itemElement);
+            }
+        });
+    }
+    
+   
+    async function updateCartItem(productoId, presentacion, cantidad, itemElement) {
+        try {
+            const response = await fetch('/carrito/actualizar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    producto_id: productoId,
+                    presentacion: presentacion,
+                    cantidad: cantidad
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+               
+                itemElement.querySelector(".quantity").textContent = cantidad;
+                const precioUnitario = parseFloat(itemElement.querySelector(".item-price").textContent.replace('$', ''));
+                const nuevoSubtotal = precioUnitario * cantidad;
+                itemElement.querySelector(".item-subtotal").textContent = `$${nuevoSubtotal.toFixed(2)}`;
+                
+                updateCartSummary();
+                showCustomAlert('Producto actualizado correctamente');
+                
+                
+                document.querySelectorAll('.content-shopping-cart .number').forEach(el => {
+                    el.textContent = `(${result.cart_count || 0})`;
+                });
+            } else {
+                showCustomAlert(`Error: ${result.error}`, 'error');
+            }
+        } catch (error) {
+            console.error('Error al actualizar carrito:', error);
+            showCustomAlert('Error al actualizar el producto', 'error');
+        }
+    }
+    
+    
+    async function removeCartItem(productoId, presentacion, itemElement) {
+        try {
+            const response = await fetch(`/carrito/eliminar/${productoId}/${presentacion}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                }
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                itemElement.remove();
+                
+                
+                if (cartItemsContainer.children.length === 0) {
+                    showEmptyCartMessage();
+                }
+                
+                updateCartSummary();
+                showCustomAlert('Producto eliminado del carrito');
+            } else {
+                showCustomAlert(`Error: ${result.error}`, 'error');
+            }
+        } catch (error) {
+            console.error('Error al eliminar item:', error);
+            showCustomAlert('Error al eliminar el producto', 'error');
+        }
+    }
+    
+    
+    function updateCartSummary() {
+        let subtotal = 0;
+        let totalItems = 0;
+        
+        document.querySelectorAll(".cart-item").forEach(item => {
+            const cantidad = parseInt(item.querySelector(".quantity").textContent);
+            const precioUnitario = parseFloat(item.querySelector(".item-price").textContent.replace('$', ''));
+            subtotal += precioUnitario * cantidad;
+            totalItems += cantidad;
+        });
+        
+        subtotalSpan.textContent = `$${subtotal.toFixed(2)}`;
+        totalSpan.textContent = `$${subtotal.toFixed(2)}`;
+        cartNumber.textContent = `(${totalItems})`;
+    }
+    
+    
+    function showEmptyCartMessage() {
+        cartItemsContainer.innerHTML = `
+            <div class="empty-cart-message">
+                <p>Tu carrito está vacío</p>
+                <a href="/carrito/galletas" class="btn-continue-shopping">Ir a comprar</a>
+            </div>
+        `;
+    }
+    
+    function setupPickupDate() {
+    const pickupDateInput = document.getElementById("pickupDate");
+    if (pickupDateInput) {
+        const today = new Date();
+        
+        // Fecha mínima (hoy mismo)
+        const minDate = today;
+        
+        // Fecha máxima (3 días a partir de hoy)
+        const maxDate = new Date(today);
+        maxDate.setDate(maxDate.getDate() + 3);
+        
+        // Formatear fechas para el input type="date"
+        pickupDateInput.min = minDate.toISOString().split('T')[0];
+        pickupDateInput.max = maxDate.toISOString().split('T')[0];
+        
+        // Establecer el valor por defecto como hoy
+        pickupDateInput.value = minDate.toISOString().split('T')[0];
+    }
+}
+
+function validatePickupDate(selectedDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalizar a inicio del día
+    
+    const maxDate = new Date(today);
+    maxDate.setDate(maxDate.getDate() + 3);
+    
+    const selected = new Date(selectedDate);
+    selected.setHours(0, 0, 0, 0); // Normalizar a inicio del día
+    
+    return selected >= today && selected <= maxDate;
+}
+
+
+    function validatePickupDate(selectedDate) {
+        const today = new Date();
+        const maxDate = new Date(today);
+        maxDate.setDate(maxDate.getDate() + 3);
+        
+        const selected = new Date(selectedDate);
+        
+        return selected <= maxDate;
+    }
+
+    async function updateCartCounter() {
+        try {
+            const response = await fetch('/carrito/check-session');
+            const data = await response.json();
+            
+            if (data.isLoggedIn) {
+               
+                const cartResponse = await fetch('/carrito/carrito-count');
+                const cartData = await cartResponse.json();
+                
+                const cartCount = document.querySelectorAll('.content-shopping-cart .number');
+                cartCount.forEach(el => {
+                    el.textContent = `(${cartData.count || 0})`;
+                });
+            }
+        } catch (error) {
+            console.error('Error al actualizar contador:', error);
+            showCustomAlert('Error al actualizar el contador del carrito', 'error');
+        }
+    }
+
+    // Manejar el botón de confirmar pedido
+    document.querySelector('.btn-checkout').addEventListener('click', async function(e) {
+        e.preventDefault();
+        
+        const pickupDate = document.getElementById('pickupDate').value;
+        
+        if (!pickupDate) {
+            showCustomAlert('Por favor selecciona una fecha de recolección', 'error');
+            return;
+        }
+        
+        // Validar que la fecha no exceda los 3 días
+        if (!validatePickupDate(pickupDate)) {
+            showCustomAlert('Solo tienes los siguientes tres días para la recolección', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/carrito/confirmar-pedido', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    fecha_entrega: pickupDate
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showCustomAlert(`¡Pedido confirmado! Número de pedido: ${result.idPedido}`);
+                setTimeout(() => {
+                    window.location.href = '/carrito/mis-pedidos';
+                }, 1500);
+            } else {
+                showCustomAlert(`Error: ${result.error || 'Error desconocido'}`, 'error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showCustomAlert('Error al confirmar el pedido', 'error');
+        }
+    });
+
+    // Control del menú desplegable del usuario
+    const dropdown = document.querySelector(".user-dropdown");
+    let dropdownTimeout;
+    
+    if (dropdown) {
+        const dropdownContent = dropdown.querySelector(".dropdown-content");
+        
+        // Asegurarse que el menú esté oculto inicialmente
+        dropdownContent.style.display = "none";
+        
+        dropdown.addEventListener("mouseenter", () => {
+            clearTimeout(dropdownTimeout);
+            dropdownContent.style.display = "block";
+        });
+        
+        dropdown.addEventListener("mouseleave", () => {
+            dropdownTimeout = setTimeout(() => {
+                dropdownContent.style.display = "none";
+            }, 300);
+        });
+        
+        // Evitar que se cierre cuando el mouse está sobre el menú
+        dropdownContent.addEventListener("mouseenter", () => {
+            clearTimeout(dropdownTimeout);
+        });
+        
+        dropdownContent.addEventListener("mouseleave", () => {
+            dropdownContent.style.display = "none";
+        });
+    }
+});
+    </script>   
+</body>
 </html>

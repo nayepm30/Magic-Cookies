@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="p-4 md:p-8">
+    <h1 class="text-2xl font-bold mb-6">Empaquetado de Galletas</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="p-4 mb-4 text-sm text-{{ category }}-800 rounded-lg bg-{{ category }}-50 dark:bg-gray-800 dark:text-{{ category }}-400" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4 text-center">Crear Paquete</h2>
+        <form method="POST" action="{{ url_for('produccion.paquetes') }}">
+            {{ form.hidden_tag() }}
+
+            <div class="mb-4">
+                <label for="producto_id" class="block text-gray-700 text-sm font-bold mb-2">
+                    Producto (Tipo Galleta):
+                </label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="producto_id" name="producto_id" required>
+                    <option value="">Seleccionar Galleta</option>
+                    {% for producto in productos_galletas %}
+                        <option value="{{ producto.idProducto }}">{{ producto.nombre }} (Peso: {{ producto.peso }} gr, Stock: {{ producto.cantidad_stock }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="gramaje" class="block text-gray-700 text-sm font-bold mb-2">
+                    Gramaje del Paquete:
+                </label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="gramaje" name="gramaje" required>
+                    <option value="">Seleccionar Gramaje</option>
+                    <option value="700">700 gramos</option>
+                    <option value="1000">1 Kilo</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="cantidad_paquetes" class="block text-gray-700 text-sm font-bold mb-2">
+                    Cantidad de Paquetes a Crear:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="cantidad_paquetes" name="cantidad_paquetes" type="number" min="1" value="1" required>
+            </div>
+
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">
+                Crear Paquetes
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

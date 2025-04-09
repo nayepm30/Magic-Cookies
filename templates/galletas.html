@@ -9,6 +9,8 @@
         <link rel="stylesheet" href="../static/css/galletas.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="../static/js/carrito.js"></script>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
     </head>
 	<body>
 		<header>
@@ -20,11 +22,22 @@
 					</div>
 
 					<div class="container-user">
-						<span class="text" onclick="window.location.href='login'">Iniciar sesión o crear cuenta</span>
-						<i class="fa-solid fa-user"></i>
+						{% if current_user.is_authenticated %}
+						<div class="user-dropdown" id="userDropdown">
+								<span class="name">{{ current_user.nombre }} {{ current_user.apellido }} <i class="fa-solid fa-chevron-down"></i></span>
+								<i class="fa-solid fa-user"></i>
+								<div class="dropdown-content">
+									<a href="/carrito/mis-pedidos">Mis pedidos</a>  
+									<a href="/logout">Cerrar sesión</a>
+								</div>
+							</div>
+						{% else %}
+							<span class="text" onclick="window.location.href='/login'">Iniciar sesión o crear cuenta</span>
+							<i class="fa-solid fa-user"></i>
+						{% endif %}
 						<i class="fa-solid fa-basket-shopping"></i>
 						<div class="content-shopping-cart">
-							<span class="text" onclick="window.location.href='carrito'">Carrito</span>
+							<span class="text" onclick="window.location.href='/carrito/carrito'">Carrito</span>
 							<span class="number">(0)</span>
 						</div>
 					</div>
@@ -34,77 +47,62 @@
 			<div class="container-navbar">
 				<nav class="navbar container">
 					<i class="fa-solid fa-bars"></i>
-					<ul class="menu">
-						<li><a href="/">Inicio</a></li>
-						<li><a href="/galletas">Galletas</a></li>
-                        <li><a href="/presentaciones">Presentaciones</a></li>
-						<li><a href="#">Sobre nosotros</a></li>
-						<li><a href="#">Ubicación</a></li>
-					</ul>
-
-					<form class="search-form">
-						<input type="search" placeholder="Buscar..." />
-						<button class="btn-search">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</form>
+                    <ul class="menu">
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="/carrito/galletas">Galletas</a></li>
+                        <li><a href="/carrito/sobre_nosotros">Sobre nosotros</a></li>
+                        <li><a href="/carrito/ubicacion">Ubicación</a></li>
+                    </ul>
+					<br>
+					<br>
+					<br>
 				</nav>
 			</div>
 		</header>
 
 		<section class="container products-section">
             <h1 class="heading-1">Nuestros Productos</h1>
+        
             <div class="product-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="{{ url_for('static', filename='img/galleta_menta.png') }}" alt="Galleta de Menta">
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars"></div>
-                        <h3>Galleta de menta</h3>
-                        <div class="product-presentations">
-                            <label for="presentation">Presentación:</label>
-                            <select class="presentation-select">
-                                <option value="pieza">1 Pieza - $4.60</option>
-                                <option value="700g">700g - $12.00</option>
-                                <option value="1kg">1kg - $50.00</option>
-                            </select>
-                        </div>
-                        
-                        <div class="product-quantity">
-                            <label class="quantity-label" for="quantity">Cantidad:</label>
-                            <input type="number" class="quantity-input" min="1" value="1">
-                        </div>
-                        
-                        <div class="product-actions">
-                            <button class="btn-add-to-cart">
-                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                {% for producto in productos %}
+                <div class="product-card"
+                    data-product-id="{{ producto.idProducto }}"
+                    data-peso="{{ producto.peso }}">
         
-                <div class="product-card">
                     <div class="product-image">
-                        <img src="{{ url_for('static', filename='img/galleta_cacahuate.png') }}" alt="Galleta de Cacahuate">
+                        {% if producto.imagen %}
+                        <img src="{{ url_for('static', filename='imagenes_productos/' + producto.imagen) }}" alt="{{ producto.nombre }}">
+                        {% endif %}
                     </div>
+                    
                     <div class="content-card-product">
                         <div class="stars"></div>
-                        <h3>Galleta de cacahuate</h3>
+                        <h3>{{ producto.nombre }}</h3>
+        
                         <div class="product-presentations">
                             <label for="presentation">Presentación:</label>
                             <select class="presentation-select">
-                                <option value="pieza">1 Pieza - $4.60</option>
-                                <option value="700g">700g - $12.00</option>
-                                <option value="1kg">1kg - $50.00</option>
+                                {% for presentacion in producto.presentaciones %}
+                                {% set tipo_mostrar = presentacion.tipo %}
+                                {% if presentacion.tipo == 'Pre-empaçada 700 gr' %}
+                                    {% set tipo_mostrar = '700g' %}
+                                {% elif presentacion.tipo == 'Pre-empaçada 1Kg' %}
+                                    {% set tipo_mostrar = '1kg' %}
+                                {% endif %}
+                                <option value="{{ tipo_mostrar }}" 
+                                        data-precio="{{ presentacion.precio }}"
+                                        data-tipo-original="{{ presentacion.tipo }}">
+                                    {{ presentacion.tipo }} - ${{ "%.2f"|format(presentacion.precio) }}
+                                </option>
+                                {% endfor %}
                             </select>
                         </div>
-                        
+        
                         <div class="product-quantity">
                             <label class="quantity-label" for="quantity">Cantidad:</label>
                             <input type="number" class="quantity-input" min="1" value="1">
                         </div>
-                        
+        
                         <div class="product-actions">
                             <button class="btn-add-to-cart">
                                 <i class="fas fa-shopping-cart"></i> Añadir al carrito
@@ -112,541 +110,203 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="{{ url_for('static', filename='img/Galletas_frambuesaa.png') }}" alt="Galleta de Frambuesa">
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars"></div>
-                        <h3>Galleta de frambuesa</h3>
-                        <div class="product-presentations">
-                            <label for="presentation">Presentación:</label>
-                            <select class="presentation-select">
-                                <option value="pieza">1 Pieza - $4.60</option>
-                                <option value="700g">700g - $12.00</option>
-                                <option value="1kg">1kg - $50.00</option>
-                            </select>
-                        </div>
-                        
-                        <div class="product-quantity">
-                            <label class="quantity-label" for="quantity">Cantidad:</label>
-                            <input type="number" class="quantity-input" min="1" value="1">
-                        </div>
-                        
-                        <div class="product-actions">
-                            <button class="btn-add-to-cart">
-                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="{{ url_for('static', filename='img/Galleta_almandras.png') }}" alt="Galleta de Almendras">
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars"></div>
-                        <h3>Galleta de almendras</h3>
-                        <div class="product-presentations">
-                            <label for="presentation">Presentación:</label>
-                            <select class="presentation-select">
-                                <option value="pieza">1 Pieza - $4.60</option>
-                                <option value="700g">700g - $12.00</option>
-                                <option value="1kg">1kg - $50.00</option>
-                            </select>
-                        </div>
-                        
-                        <div class="product-quantity">
-                            <label class="quantity-label" for="quantity">Cantidad:</label>
-                            <input type="number" class="quantity-input" min="1" value="1">
-                        </div>
-                        
-                        <div class="product-actions">
-                            <button class="btn-add-to-cart">
-                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="{{ url_for('static', filename='img/Galleta_platanoo.png') }}" alt="Galleta de Plátano">
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars"></div>
-                        <h3>Galleta de plátano</h3>
-                        <div class="product-presentations">
-                            <label for="presentation">Presentación:</label>
-                            <select class="presentation-select">
-                                <option value="pieza">1 Pieza - $4.60</option>
-                                <option value="700g">700g - $12.00</option>
-                                <option value="1kg">1kg - $50.00</option>
-                            </select>
-                        </div>
-                        
-                        <div class="product-quantity">
-                            <label class="quantity-label" for="quantity">Cantidad:</label>
-                            <input type="number" class="quantity-input" min="1" value="1">
-                        </div>
-                        
-                        <div class="product-actions">
-                            <button class="btn-add-to-cart">
-                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="{{ url_for('static', filename='img/miel.png') }}" alt="Galleta de Miel">
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars"></div>
-                        <h3>Galleta de miel</h3>
-                        <div class="product-presentations">
-                            <label for="presentation">Presentación:</label>
-                            <select class="presentation-select">
-                                <option value="pieza">1 Pieza - $4.60</option>
-                                <option value="700g">700g - $12.00</option>
-                                <option value="1kg">1kg - $50.00</option>
-                            </select>
-                        </div>
-                        
-                        <div class="product-quantity">
-                            <label class="quantity-label" for="quantity">Cantidad:</label>
-                            <input type="number" class="quantity-input" min="1" value="1">
-                        </div>
-                        
-                        <div class="product-actions">
-                            <button class="btn-add-to-cart">
-                                <i class="fas fa-shopping-cart"></i> Añadir al carrito
-                            </button>
-                        </div>
-                    </div>
-                </div>
-               
-	</body>
-</html>
-
-<!--
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport"content="width=device-width, initial-scale=1.0"/>
-		<title>Baristas</title>
-		<link rel="stylesheet" href="../static/css/index.css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	</head>
-	<body>
-		<header>
-			<div class="container-hero">
-				<div class="container hero">
-					<div class="container-logo">
-						<img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="logo">
-						<h1 class="logo"><a href="/">MAGIC COOKIES</a></h1>
-					</div>
-
-					<div class="container-user">
-						<span class="text" onclick="window.location.href='login'">Iniciar sesión o  crear cuenta</span>
-						<i class="fa-solid fa-user"></i>
-						<i class="fa-solid fa-basket-shopping"></i>
-						<div class="content-shopping-cart">
-							<span class="text">Carrito</span>
-							<span class="number">(0)</span>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="container-navbar">
-				<nav class="navbar container">
-					<i class="fa-solid fa-bars"></i>
-					<ul class="menu">
-						<li><a href="/">Inicio</a></li>
-						<li><a href="/galletas">Galletas</a></li>
-                        <li><a href="/presentaciones">Presentaciones</a></li>
-						<li><a href="#">Sobre nosotros</a></li>
-						<li><a href="#">Ubicación</a></li>
-					</ul>
-
-					<form class="search-form">
-						<input type="search" placeholder="Buscar..." />
-						<button class="btn-search">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</form>
-				</nav>
-			</div>
-		</header>
-        <section class="container specials">
-            <br>
-            <h1 class="heading-1">Nuestros Productos</h1>
-            <div class="container-products">
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="../static/img/galleta_menta.png" alt="Cafe Irish" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Galleta de menta</h3>
-                        <a href="/pedidos" class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </a>
-                        
-                        <p class="price">$4.60</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img
-                            src="../static/img/galleta_cacahuate.png"
-                            alt="Cafe incafe-ingles.jpg"
-                        />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Galleta de cacahuate</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$5.70 </p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="../static/img/Galletas_frambuesaa.png" alt="Cafe Viena" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <h3>Galleta de frambuesa</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$3.85</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="../static/img/Galleta_almandras.png" alt="Cafe Liqueurs" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Galleta de almendras</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$5.60</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="container specials">
-            <div class="container-products">
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="../static/img/Galleta_platanoo.png" alt="Cafe Irish" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Galleta de platano</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$4.60</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img
-                            src="../static/img/miel.png"
-                            alt="Cafe incafe-ingles.jpg"
-                        />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Galleta de miel</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$5.70 </p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="../static/img/chocolate_blanco.png" alt="Cafe Viena" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <h3>Galleta de chocolate blanco</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$3.85</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="../static/img/galletas_almendras.jpg" alt="Cafe Liqueurs" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Galleta de café</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$5.60</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="container specials">
-            <div class="container-products">
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="../static/img/Galleta_canelaaa.png" alt="Cafe Irish" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Galleta de canela</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$4.60</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img
-                            src="../static/img/frambuesa.png"
-                            alt="Cafe incafe-ingles.jpg"
-                        />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Galleta de frutos rojos</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$5.70 </p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="../static/img/galleta_frambuesa.png" alt="Cafe Viena" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <h3>Galleta de coco</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$3.85</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="../static/img/galletas_almendras.jpg" alt="Cafe Liqueurs" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Galleta de limón</h3>
-                        <span class="add-cart">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                        </span>
-                        <p class="price">$5.60</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </section>
         
+
+		<script>
+            document.addEventListener('DOMContentLoaded', function() {
+    // Función para verificar sesión
+    async function checkSession() {
+        try {
+            const response = await fetch('/carrito/check-session');
+            return await response.json();
+        } catch (error) {
+            console.error('Error al verificar sesión:', error);
+            return { isLoggedIn: false, loginUrl: '/auth/login' };
+        }
+    }
+
+    // Función para mostrar notificaciones
+    function showNotification(message, isError = false) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${isError ? 'error' : 'success'}`;
+        notification.innerHTML = `
+            <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+            <span>${message}</span>
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => notification.remove(), 500);
+        }, 3000);
+    }
+
+    // Función para mostrar alerta de login requerido
+    function showLoginAlert(loginUrl) {
+        const notification = document.createElement('div');
+        notification.className = 'notification error';
+        notification.innerHTML = `
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Debes iniciar sesión para agregar productos</span>
+        `;
+        document.body.appendChild(notification);
+        
+        // Hacer la notificación clickeable para redirigir
+        notification.style.cursor = 'pointer';
+        notification.addEventListener('click', () => {
+            window.location.href = loginUrl;
+        });
+        
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => notification.remove(), 500);
+        }, 3000);
+    }
+
+    // Función para actualizar el contador del carrito
+    async function updateCartCounter() {
+        try {
+            const response = await fetch('/carrito/carrito-count');
+            if (response.ok) {
+                const data = await response.json();
+                document.querySelectorAll('.content-shopping-cart .number').forEach(el => {
+                    el.textContent = `(${data.count || 0})`;
+                });
+            }
+        } catch (error) {
+            console.error('Error al actualizar contador:', error);
+        }
+    }
+
+    // Función para calcular precio según presentación
+    function calcularPrecio(producto, presentacion) {
+        const selectedOption = producto.querySelector(`.presentation-select option[value="${presentacion}"]`);
+        return parseFloat(selectedOption.dataset.precio);
+    }
+
+    // Manejador para agregar al carrito
+    async function handleAddToCart(e) {
+        e.preventDefault();
+        
+        try {
+            // Verificar sesión
+            const sessionCheck = await fetch('/carrito/check-session');
+            const sessionData = await sessionCheck.json();
+            if (!sessionData.isLoggedIn) {
+                showLoginAlert(sessionData.loginUrl);
+                return;
+            }
+
+            const productCard = e.target.closest('.product-card');
+            const productId = productCard.dataset.productId;
+            const productName = productCard.querySelector('h3').textContent;
+            
+            const selectElement = productCard.querySelector('.presentation-select');
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            
+            // Obtener los valores necesarios
+            const presentation = selectedOption.dataset.tipoOriginal;
+            const quantity = parseInt(productCard.querySelector('.quantity-input').value);
+            const price = parseFloat(selectedOption.dataset.precio);
+
+            // Validar cantidad
+            if (isNaN(quantity) || quantity < 1) {
+                throw new Error('La cantidad debe ser al menos 1');
+            }
+
+            // Validar precio
+            if (isNaN(price)) {
+                throw new Error('Precio no válido');
+            }
+
+            // Enviar datos al servidor
+            const response = await fetch(`/carrito/agregar/${productId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    presentacion: presentation,
+                    cantidad: quantity,
+                    precio: price
+                })
+            });
+
+            const result = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(result.error || 'Error al agregar al carrito');
+            }
+
+            if (result.success) {
+                showNotification(`${productName} agregado al carrito`);
+                await updateCartCounter();
+            } else {
+                throw new Error(result.error || 'Error al agregar al carrito');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showNotification(error.message, true);
+        }
+    }
+
+    // Configurar eventos
+    function setupEventListeners() {
+        document.querySelectorAll('.btn-add-to-cart').forEach(button => {
+            button.addEventListener('click', handleAddToCart);
+        });
+        
+        // Actualizar precios cuando cambia la presentación
+        document.querySelectorAll('.presentation-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const productCard = this.closest('.product-card');
+                const precio = calcularPrecio(productCard, this.value);
+                const option = this.options[this.selectedIndex];
+                option.text = `${this.value} - $${precio.toFixed(2)}`;
+            });
+        });
+    }
+
+    // Control del menú desplegable del usuario
+    const dropdown = document.querySelector(".user-dropdown");
+    let dropdownTimeout;
+    
+    if (dropdown) {
+        const dropdownContent = dropdown.querySelector(".dropdown-content");
+        
+        // Asegurarse que el menú esté oculto inicialmente
+        dropdownContent.style.display = "none";
+        
+        dropdown.addEventListener("mouseenter", () => {
+            clearTimeout(dropdownTimeout);
+            dropdownContent.style.display = "block";
+        });
+        
+        dropdown.addEventListener("mouseleave", () => {
+            dropdownTimeout = setTimeout(() => {
+                dropdownContent.style.display = "none";
+            }, 300);
+        });
+        
+        // Evitar que se cierre cuando el mouse está sobre el menú
+        dropdownContent.addEventListener("mouseenter", () => {
+            clearTimeout(dropdownTimeout);
+        });
+        
+        dropdownContent.addEventListener("mouseleave", () => {
+            dropdownContent.style.display = "none";
+        });
+    }
+
+    // Inicializar
+    setupEventListeners();
+    updateCartCounter();
+});
+            </script>
+    
 	</body>
 </html>
--->

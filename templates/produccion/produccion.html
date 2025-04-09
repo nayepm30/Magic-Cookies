@@ -1,29 +1,61 @@
 {% extends "layout.html" %}
-
 {% block content %}
-<h1>Producción</h1>
-
+{% import "_macros.html" as macros %}
+<br><br>
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8"> 
+    <h2 class="form-title">Recetas</h2>    
+    <center>
+    <div class="container mt-20">  
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div role="alert">
+                        {{ message }}                        
+                    </div>
+                {% endfor %}
+            {% endif %} 
+        {% endwith %} 
+    </div> 
+    </center>
+    <br> 
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Nombre</th>
+                <th class="px-4 py-2 border-b">Precio produccion</th>
+                <th class="px-4 py-2 border-b">Cantidad a producir</th>
+                <th class="px-4 py-2 border-b">Cantidad en stock</th>
+                <th class="px-4 py-2 border-b"></th>                
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in recetas %}
+            <tr>
+                <td>{{ item.receta.nombre }}</td>
+                <td>{{ item.receta.precioProduccion }}</td>
+                <td>{{ item.receta.cantidad_produccion }}</td>
+                <td>{{ item.producto.cantidad_stock }}</td>                  
+                <td>      
+                    <div class="flex flex-row gap-2">
+                        <form action="{{ url_for('produccion.detalles') }}" method="POST">                             
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />   
+                            <input type="hidden" name="idReceta" value="{{ item.receta.idReceta }}">
+                            <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                Detalles
+                            </button>
+                        </form>                        
+                        <form action="{{ url_for('produccion.producir') }}" method="POST">                             
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />                       
+                            <input type="hidden" name="idReceta" value="{{ item.receta.idReceta }}">
+                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Producir
+                            </button>
+                        </form>
+                    </div>              
+                </td>
+            </tr>            
+            {% endfor %}
+        </tbody>
+    </table>                     
+</div>
 {% endblock %}
-
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="stylesheet" href="../../static/css/styles.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
-<body>
-    {% from "macros.html" import macros %}
-
-    {{ macros() }}
-
-    <main>
-        <h1>Producción</h1>
-    </main>    
-    <script src="../../static/js/scripts.js"></script>
-</body>
-</html>
--->

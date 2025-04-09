@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sobre Nosotros - Magic Cookies</title>
+    <link rel="stylesheet" href="../static/css/index.css" />
+    <link rel="stylesheet" href="../static/css/sobre-nosotros.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <div class="container-hero">
+            <div class="container hero">
+                <div class="container-logo">
+                    <img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="logo">
+                    <h1 class="logo"><a href="/">MAGIC COOKIES</a></h1>
+                </div>
+
+                <div class="container-user">
+                    {% if current_user.is_authenticated %}
+                        <span class="name">{{ current_user.nombre }} {{ current_user.apellido }}</span>
+                        <i class="fa-solid fa-user"></i>
+                    {% else %}
+                        <span class="text" onclick="window.location.href='/login'">Iniciar sesión o crear cuenta</span>
+                        <i class="fa-solid fa-user"></i>
+                    {% endif %}
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <div class="content-shopping-cart">
+                        <span class="text" onclick="window.location.href='/carrito/carrito'">Carrito</span>
+                        <span class="number">(0)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-navbar">
+            <nav class="navbar container">
+                <i class="fa-solid fa-bars"></i>
+                <ul class="menu">
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/carrito/galletas">Galletas</a></li>
+                    <li><a href="/carrito/sobre_nosotros">Sobre nosotros</a></li>
+                    <li><a href="/carrito/ubicacion">Ubicación</a></li>
+                </ul>
+				<br>
+				<br>
+				<br>
+            </nav>
+        </div>
+    </header>
+
+    <main class="about-us-container">
+        <section class="our-story">
+            <div class="container">
+				<br>
+                <div class="story-content">
+                    <h2>¿Quiénes Somos?</h2>
+                    <p>Magic Cookies nació de la pasión por la repostería creativa y el deseo de ofrecer algo diferente. Somos un equipo de amantes de las galletas que creemos que cada ocasión merece un toque mágico.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="our-values">
+            <div class="container">
+                <h2>Nuestros Valores</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Calidad</h3>
+                        <p>Usamos solo ingredientes frescos y de la más alta calidad en cada galleta que horneamos.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Creatividad</h3>
+                        <p>Cada galleta es una obra de arte única, diseñada para sorprender y deleitar.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-seedling"></i>
+                        <h3>Sostenibilidad</h3>
+                        <p>Nos comprometemos con prácticas eco-amigables en nuestro proceso de producción.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="our-process">
+            <div class="container">
+                <h2>El Proceso Magic</h2>
+                <div class="process-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Selección de Ingredientes</h3>
+                        <p>Seleccionamos cuidadosamente cada ingrediente para garantizar el mejor sabor y textura.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Diseño Artesanal</h3>
+                        <p>Cada diseño es creado a mano con atención a los detalles más pequeños.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Horneado Perfecto</h3>
+                        <p>Nuestro horneado controlado garantiza la textura ideal en cada galleta.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Control de Calidad</h3>
+                        <p>Cada galleta es inspeccionada antes de llegar a tus manos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <style>
+        .our-story, .our-values, .our-process, .testimonials {
+            padding: 60px 0;
+        }
+
+        .our-story {
+            background-color: #fff9f0;
+        }
+
+        .story-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .story-content h2 {
+            font-size: 2.8rem;
+            color: #d4a373;
+            margin-bottom: 20px;
+        }
+
+        .story-content p {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .story-image img {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            height: auto;
+        }
+
+        .our-values h2, .our-process h2, .testimonials h2 {
+            text-align: center;
+            font-size: 3rem;
+            color: #d4a373;
+            margin-bottom: 50px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .value-card i {
+            font-size: 2.5rem;
+            color: #d4a373;
+            margin-bottom: 20px;
+        }
+
+        .value-card h3 {
+            font-size: 1.9rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .value-card p {
+            color: #666;
+            line-height: 1.6;
+			font-size: 1.5rem;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .step {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            background: #d4a373;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .step p {
+            color: #666;
+            line-height: 1.6;
+			font-size: 1.2rem;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .quote:before {
+            content: '"';
+            font-size: 4rem;
+            color: #d4a373;
+            opacity: 0.2;
+            position: absolute;
+            left: -10px;
+            top: -20px;
+        }
+
+        .client {
+            font-weight: bold;
+            color: #d4a373;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .story-content {
+                flex-direction: column;
+            }
+            
+            .hero-about h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-about p {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+{% import "_macros.html" as macros %}
+<br><br>
+
+<div class="form-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h2 class="form-title">Registrar merma para productos</h2>    
+    <center>
+        <div class="container mt-20">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div role="alert">
+                            {{ message }}                        
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </center>
+    <br>    
+    <form method="POST">
+        {{ form.csrf_token }}        
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-5">
+            <div class="relative z-0 w-full group">
+                <label class="text-sm text-gray-500">Producto</label>
+                {{ macros.campoNuevo(form.materia, class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer") }}
+            </div>
+            <div class="relative z-0 w-full group">
+                <label class="text-sm text-gray-500">Cantidad</label>
+                {{ macros.campoNuevo(form.cantidad, class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer") }}
+            </div>
+            <div class="relative z-0 w-full group">
+                <label class="text-sm text-gray-500">Motivo</label>
+                {{ macros.campoNuevo(form.motivo, class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer") }}
+            </div>
+        </div>
+
+        <div class="flex gap-4">
+            <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5">
+                Registrar
+            </button>
+        </div>
+    </form>  
+</div>
+
+{% endblock %}

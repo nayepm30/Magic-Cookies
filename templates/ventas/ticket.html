@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+{% import "_macros.html" as macros %}
+<br><br>
+{% if productos %}
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8">  
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Producto</th>
+                <th class="px-4 py-2 border-b">Presentación</th>
+                <th class="px-4 py-2 border-b">Cantidad</th>
+                <th class="px-4 py-2 border-b">Precio</th>
+                <th class="px-4 py-2 border-b">Subtotal</th>                    
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.get('nombre', 'Sin nombre') }}</td>
+                <td>{{ producto.get('tipo', 'Sin tipo') }}</td>
+                <td>{{ producto.get('cantidad', 0) }}</td>
+                <td>{{ producto.get('precio', 0.0) }}</td>
+                <td>{{ producto.get('subtotal', 0.0) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>                     
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>                                
+                <th class="px-4 py-2 border-b">Total: {{ total }}</th>                    
+            </tr>
+        </thead>                        
+    </table>
+    
+    
+    <div class="flex justify-between gap-4">                                                                
+        <!-- Botón Volver (Verde) -->        
+        <a href="{{ url_for('ventas.volver') }}" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            Volver
+         </a>
+    </div> 
+</div>
+{% endif %}
+{% endblock %}  

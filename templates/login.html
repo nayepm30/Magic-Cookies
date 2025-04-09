@@ -1,3 +1,4 @@
+{% import "_macros.html" as macros %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,33 +11,41 @@
 <body>
     <div class="container" id="container">
         <div class="form-container sign-up">
-            <form>
-                <h1>Crear cuenta</h1>
-                <br>
-                <br>
-                
-                <span>Usa tu email para registrarte</span>
-                <input type="text" placeholder="Nombre">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Contraseña">
-                <br>
-                <button id="crearcuentasubir">Crear cuenta</button>
+            <form method="POST">
+                {{ form2.hidden_tag() }}                                   
+                <input type="hidden" name="accion" value="crearCuenta">   
+                <!-- Añadir verificacion en dos pasos-->
+                <h1>Crear cuenta</h1>                                           
+                <label for="nombre" class="label-usuario">Nombre</label>
+                {{ macros.campoNuevo(form2.nombre) }}
+
+                <label for="apellido" class="label-usuario">Apellido</label>
+                {{ macros.campoNuevo(form2.apellido) }}
+
+                <label for="email2" class="label-usuario">Email</label>
+                {{ macros.campoNuevo(form2.email2) }}
+
+                <label for="password2" class="label-usuario">Contraseña</label>
+                {{ macros.campoNuevo(form2.password2) }}  
+
+                <button type="submit">Crear cuenta</button>
             </form>
         </div>
-        <div class="form-container sign-in">
-            <form>
+        <div class="form-container sign-in">            
+             <form method="POST">
+                {{ form.hidden_tag() }}                                  
+                <input type="hidden" name="accion" value="inicioSesion">   
                 <h1>Iniciar sesión</h1>
                 <br>
                 <br>
+                    <label for="email" class="label-usuario">Email</label>
+                    {{ macros.campoNuevo(form.email) }}
+                <br>            
+                <label for="password" class="label-contraseña">Contraseña</label>
+                    {{ macros.campoNuevo(form.password) }}
                 <br>
-                <label class="label-usuario">Email</label>
-                <input type="email" placeholder="Ingresa tu email">
                 <br>
-                <label class="label-contraseña">Contraseña</label>
-                <input type="password" placeholder="Ingresa tu contraseña">
-                <br>
-                <br>
-                <button>Iniciar sesión</button>
+                <button type="submit">Iniciar sesión</button>
             </form>
         </div>
         <div class="toggle-container">
@@ -44,10 +53,30 @@
                 <div class="toggle-panel toggle-left">
                     <img src="../static/img/logo4sinfondo.png" alt="Imagen de registro" width="350" height="350" class="img-arriba">
                     <button class="hidden" id="login">Iniciar sesión</button>
+                    <br>
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                 </div>
                 <div class="toggle-panel toggle-right">
                     <img src="../static/img/logo4sinfondo.png" alt="Imagen de registro" width="350" height="350" class="img-arriba">
                     <button class="hidden" id="register">Crear cuenta</button>
+                    <br>
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                 </div>
             </div>
         </div>

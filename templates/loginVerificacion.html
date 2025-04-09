@@ -1,0 +1,51 @@
+{% import "_macros.html" as macros %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Cuenta</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/login.css">
+</head>
+<body>
+    <div class="container" id="container">        
+        <div class="form-container sign-in">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <h3>Codigo de verificacion:</h3>
+                <br>
+            <!--<label for="codigo" class="label-usuario">Código:</label>-->
+                {{ macros.campoNuevo(form.codigo) }}
+
+                <button type="submit">Verificar</button>
+            </form>
+        </div>
+        
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-right">
+                    <img src="../static/img/logo4sinfondo.png" alt="Imagen de registro" width="350" height="350" class="img-arriba">
+                                        
+                    <a href="{{ url_for('auth.login') }}">
+                        <button class="hidden" id="register">Cancelar registro</button>
+                    </a>
+                    <br>
+                                        
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/scripts.js"></script>
+</body>
+</html>

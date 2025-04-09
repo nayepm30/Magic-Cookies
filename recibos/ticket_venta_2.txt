@@ -1,0 +1,7 @@
+Ticket de Venta - ID: 2
+Fecha: 2025-04-07
+
+Productos Vendidos:
+67.0 x Galleta de frambuesa - $90450.0
+
+Total Venta: $90450.00

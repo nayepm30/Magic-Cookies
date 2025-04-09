@@ -1,124 +1,65 @@
-{% extends "layout.html" %}
+ {% extends "layout.html" %}
 
 {% block content %}
-<h1>Materias primas</h1>
-<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
-    <h2>Inventario</h2>
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="py-2 px-4 border-b">Producto</th>
-                    <th class="py-2 px-4 border-b">Cantidad</th>
-                    <th class="py-2 px-4 border-b">Estatus</th>
-                    <th class="py-2 px-4 border-b">Caducidad</th>
-                </tr>
-            </thead>
-        </table>
+<br><br>
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8">
+    <h2 class="form-title text-2xl font-semibold text-center mb-6 text-gray-800">Inventario de Materia Prima</h2>
+
+    <table class="w-full text-sm text-left text-gray-900 border border-gray-300 rounded-lg overflow-hidden">
+        <thead class="bg-gray-100 text-gray-700 text-sm">
+            <tr>
+                <th class="px-4 py-2 border-b">Nombre</th>
+                <th class="px-4 py-2 border-b text-center">Unidad</th>
+                <th class="px-4 py-2 border-b text-center">Cantidad</th>
+                <th class="px-4 py-2 border-b text-center">Fecha de Compra</th>
+                <th class="px-4 py-2 border-b text-center">Fecha de Caducidad</th>
+                <th class="px-4 py-2 border-b text-center">Proveedor</th>
+                <th class="px-4 py-2 border-b text-center">Estatus</th>
+            </tr>
+        </thead>
+        <tbody class="text-sm text-gray-800">
+            {% for materia_prima, proveedor in materias_primas %}
+                {% if materia_prima.cantidad > 0 %}
+                    <tr class="hover:bg-gray-50 border-t">
+                        <td class="px-4 py-2">{{ materia_prima.nombre }}</td>
+                        <td class="px-4 py-2 text-center">{{ materia_prima.tipo }}</td>
+                        <td class="px-4 py-2 text-center">{{ materia_prima.cantidad }}</td>
+                        <td class="px-4 py-2 text-center">
+                            {% if materia_prima.fecha_compra %}
+                                {{ materia_prima.fecha_compra.strftime('%d/%m/%Y') }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-2 text-center">
+                            {% if materia_prima.fecha_caducidad %}
+                                <span {% if materia_prima.fecha_caducidad < datetime.date.today() %}class="text-red-600 font-semibold"{% elif (materia_prima.fecha_caducidad - datetime.date.today()).days < 30 %}class="text-yellow-600 font-semibold"{% endif %}>
+                                    {{ materia_prima.fecha_caducidad.strftime('%d/%m/%Y') }}
+                                </span>
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-2 text-center">{{ proveedor.nombre }}</td>
+                        <td class="px-4 py-2 text-center">
+                            {% if materia_prima.cantidad == 0 %}
+                                <span class="text-red-600 font-semibold">Agotado</span>
+                            {% elif materia_prima.cantidad < 20 %}
+                                <span class="text-yellow-600 font-semibold">Agotándose</span>
+                            {% else %}
+                                <span class="text-green-600 font-semibold">Disponible</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-6 flex justify-end">
+        <a href="{{ url_for('proveedores.ordenar') }}" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            Proveedores
+        </a>
     </div>
 </div>
 {% endblock %}
-
-
-
-
-<!--
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="stylesheet" href="../../static/css/styles.css">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-</head>
-<body>
-
-    {% from "macros.html" import macros %}
-    
-    {{ macros() }}
-
-    <main class="p-6">
-        <h1 class="text-center text-2xl font-bold mb-6">Inventario</h1>
-        <div id="flowbite-form-container"></div>
-    </main>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const container = document.getElementById('flowbite-form-container');
-            const shadow = container.attachShadow({ mode: 'open' });
-
-            shadow.innerHTML = `
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
-                <style>
-                    .table-container {
-                        margin-top: 5%;
-                        padding: 20px;
-                        border-radius: 8px;
-                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                        background: #fff;
-                    }
-
-                    .table-container h2 {
-                        text-align: center;
-                        font-size: 1.5rem;
-                        font-weight: bold;
-                        margin-bottom: 1rem;
-                    }
-
-                    .table-container table {
-                        width: 100%;
-                        border-collapse: collapse;
-                    }
-
-                    .table-container th,
-                    .table-container td {
-                        padding: 10px;
-                        text-align: center;
-                        border-bottom: 1px solid #e5e7eb;
-                    }
-
-                    .table-container th {
-                        background-color: #f3f4f6;
-                        font-weight: bold;
-                    }
-
-                    .order-btn {
-                        background-color: #1d4ed8;
-                        color: white;
-                        padding: 6px 12px;
-                        border: none;
-                        border-radius: 4px;
-                        cursor: pointer;
-                        transition: background 0.3s;
-                    }
-
-                    .order-btn:hover {
-                        background-color: #2563eb;
-                    }
-                </style>
-
-                <div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
-                    <h2>Inventario</h2>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white border border-gray-300">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="py-2 px-4 border-b">Producto</th>
-                                    <th class="py-2 px-4 border-b">Cantidad</th>
-                                    <th class="py-2 px-4 border-b">Estatus</th>
-                                    <th class="py-2 px-4 border-b">Caducidad</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            `;
-        });
-    </script>
-
-    <script src="../../static/js/scripts.js"></script>
-
-</body>
-</html>
--->

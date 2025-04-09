@@ -61,10 +61,27 @@ html {
 }
 
 .container-logo {
-	margin-left: 35%;
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
+    display: flex;
+    align-items: center; /* Alinea verticalmente la imagen y el texto */
+    gap: 10px; /* Espacio entre la imagen y el texto */
+}
+
+.container-logo img {
+    width: 50px; /* Ajusta este valor según el tamaño deseado */
+    height: auto; /* Mantiene la proporción de la imagen */
+    transition: transform 0.3s ease; /* Efecto suave al hacer hover */
+}
+
+.container-logo img:hover {
+    transform: scale(1.05); /* Efecto de leve zoom al pasar el mouse */
+}
+
+.logo a {
+    text-decoration: none;
+    color: inherit; /* Mantiene el color del texto heredado */
+    font-size: 1.5rem; /* Tamaño del texto del logo */
+    font-weight: bold;
+    transition: color 0.3s ease;
 }
 
 .container-logo i {
@@ -1072,7 +1089,187 @@ html {
 	}
 }
 
-.container-logo img {
-    width: 10%; /* Ajusta el tamaño según lo necesites */
-    height: auto; /* Mantiene la proporción de la imagen */
+
+.cookie-products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.cookie-product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 250px;
+    background-color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cookie-product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.cookie-product-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    max-height: 180px;
+    object-fit: cover;
+}
+
+.cookie-content-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.cookie-product-name {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #333;
+    font-weight: 600;
+}
+
+.cookie-product-actions {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.cookie-btn-view-more {
+    background-color: #b4764f;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.cookie-btn-view-more:hover {
+    background-color: #885738;
+    transform: scale(1.05);
+}
+
+
+/* Estilos para el contenedor de usuario */
+.container-user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Estilos para el dropdown de usuario */
+.user-dropdown {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-bottom: 10px; /* Espacio adicional debajo del nombre */
+}
+
+.user-dropdown .name {
+    transition: color 0.3s ease;
+}
+
+.user-dropdown:hover .name {
+    color: #b4764f; /* Cambia de color al hacer hover */
+}
+
+/* Estilos para el contenido del dropdown */
+.user-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    z-index: 1000;
+    padding: 10px 0;
+    margin-top: 5px;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: #f8f9fa;
+    color: #b4764f;
+}
+
+/* Estilos para el ícono de usuario */
+.user-dropdown .fa-user {
+	margin-top: 7%;
+    font-size: 22px;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.user-dropdown:hover .fa-user {
+    color: #b4764f;
+}
+
+/* Estilos para el carrito */
+.content-shopping-cart {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.fa-basket-shopping {
+    font-size: 18px;
+    color: #555;
+}
+
+.dropdown-content {
+    top: calc(100% + 5px); 
+    margin-top: 0; 
+}
+
+.user-dropdown:hover .dropdown-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fa-chevron-down {
+    font-size: 12px;
+    margin-left: 5px;
+    transition: transform .3s;
+}
+
+.user-dropdown:hover .fa-chevron-down {
+    transform: rotate(380deg);
+}
+
+.user-dropdown::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 15px; 
+    background: transparent;
 }

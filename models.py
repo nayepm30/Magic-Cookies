@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -8,40 +9,20 @@ class Usuario(db.Model, UserMixin):
     idUsuario = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(45), nullable=False)
     apellido = db.Column(db.String(45), nullable=False)
-    telefono = db.Column(db.String(15))
-    username = db.Column(db.String(45), unique=True, nullable=False)
+    email = db.Column(db.String(45), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     rol = db.Column(db.Enum('Administrador', 'Vendedor', 'Cocinero', 'Cliente'), nullable=False)
-    
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
     def get_id(self):
         return str(self.idUsuario)
-    
-# Tabla de Productos
-class Producto(db.Model):
-    __tablename__ = 'tbl_productos'
-    idProducto = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    tipo = db.Column(db.Enum('Piezas', 'Pre-empacada 700 gr', 'Pre-empacada 1Kg', 'Gramos'), nullable=False)
-    precio = db.Column(db.Numeric(10, 2), nullable=False)
-    cantidad_stock = db.Column(db.Integer, nullable=False)
-    fecha_caducidad = db.Column(db.Date)
-    peso = db.Column(db.Numeric(10, 2))
-    fecha_produccion = db.Column(db.DateTime)
 
-# Tabla de Ventas
-class Venta(db.Model):
-    __tablename__ = 'tbl_ventas'
-    idVenta = db.Column(db.Integer, primary_key=True)
-    fecha = db.Column(db.Date, nullable=False)
 
-# Tabla de Detalles de Ventas
-class DetalleVenta(db.Model):
-    __tablename__ = 'tbl_detalle_ventas'
-    idDetalle = db.Column(db.Integer, primary_key=True)
-    idVenta = db.Column(db.Integer, db.ForeignKey('tbl_ventas.idVenta'))
-    idProducto = db.Column(db.Integer, db.ForeignKey('tbl_productos.idProducto'))
-    cantidad = db.Column(db.Numeric(10, 2))
-    subtotal = db.Column(db.Numeric)
 
 # Tabla de Pedidos
 class Pedido(db.Model):
@@ -52,6 +33,11 @@ class Pedido(db.Model):
     fecha_entrega = db.Column(db.DateTime)
     estatus = db.Column(db.Enum('Pendiente', 'Entregado', 'Cancelado'), nullable=False)
 
+    # Agrega esta relación
+    usuario = db.relationship('Usuario', backref='pedidos')
+    
+    detalles = db.relationship('DetallePedido', backref='pedido', lazy='select')
+
 # Tabla de Detalles de Pedido
 class DetallePedido(db.Model):
     __tablename__ = 'tbl_detalles_pedido'
@@ -59,33 +45,75 @@ class DetallePedido(db.Model):
     idPedidos = db.Column(db.Integer, db.ForeignKey('tbl_pedidos.idPedidos'))
     idProducto = db.Column(db.Integer, db.ForeignKey('tbl_productos.idProducto'))
     cantidad = db.Column(db.Integer)
+    subtotal = db.Column(db.Numeric(10, 2))
+
+
+    producto = db.relationship('Producto', backref='detalles_pedido')
+    
+# Tabla de Ventas
+class Venta(db.Model):
+    __tablename__ = 'tbl_ventas'
+    idVenta = db.Column(db.Integer, primary_key=True)
+    fecha = db.Column(db.Date, nullable=False)
+
+    detalles = db.relationship('DetalleVenta', backref='venta', lazy=True)
+
+    def total(self):
+        return sum(detalle.subtotal for detalle in self.detalles)
+
+# Tabla de Detalles de Ventas
+class DetalleVenta(db.Model):
+    __tablename__ = 'tbl_detalle_ventas'
+    idDetalle = db.Column(db.Integer, primary_key=True)
+    idVenta = db.Column(db.Integer, db.ForeignKey('tbl_ventas.idVenta'))
+    idProducto = db.Column(db.Integer, db.ForeignKey('tbl_productos.idProducto'))
+    cantidad = db.Column(db.Numeric(10, 2))
     subtotal = db.Column(db.Numeric)
+
+    producto = db.relationship('Producto', backref='detalle_ventas', lazy=True)
 
 # Tabla de Proveedores
 class Proveedor(db.Model):
     __tablename__ = 'tbl_proveedores'
     idProveedores = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(45), nullable=False)
-    telefono = db.Column(db.String(45))
-    direccion = db.Column(db.String(45))
+    nombre = db.Column(db.String(100), nullable=False)
+    telefono = db.Column(db.String(100), nullable=False)
+    direccion = db.Column(db.String(100), nullable=False)    
+    
+    productos = db.relationship('ProveedorProductos', backref='proveedor', lazy=True)
 
+# Tabla de productos Proveedores
+class ProveedorProductos(db.Model):
+    __tablename__ = 'tbl_proveedor_productos'
+    idProveedorProducto = db.Column(db.Integer, primary_key=True)
+    idProveedores = db.Column(db.Integer, db.ForeignKey('tbl_proveedores.idProveedores'))
+    nombre_producto = db.Column(db.String(100), nullable=False)
+    cantidad = db.Column(db.Numeric(10, 2))
+    presentacion = db.Column(db.Enum('Kilos', 'Litros', 'Gramos', 'Mililitros', 'Piezas'), nullable=False)
+    precio_unitario = db.Column(db.Numeric(10, 2), nullable=False)
+       
 # Tabla de Materia Prima
 class MateriaPrima(db.Model):
     __tablename__ = 'tbl_materia_prima'
     idIngrediente = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
-    tipo = db.Column(db.Enum('Piezas', 'Litros', 'Gramos', 'Kilos'), nullable=False)
+    tipo = db.Column(db.Enum('Piezas', 'Mililitros', 'Gramos'), nullable=False)
     cantidad = db.Column(db.Numeric(10, 2))
+    cantidad_original = db.Column(db.Numeric(10, 2))
+    presentacion = db.Column(db.Enum('Kilos', 'Litros', 'Gramos', 'Mililitros', 'Piezas'), nullable=False)
+    precio_unitario = db.Column(db.Numeric(10, 2), nullable=False)
     fecha_compra = db.Column(db.Date)
-    precio = db.Column(db.Numeric(10, 2))
+    fecha_caducidad = db.Column(db.Date)    
     idProveedores = db.Column(db.Integer, db.ForeignKey('tbl_proveedores.idProveedores'))
 
-# Tabla de Recetas
+#tabla de receta
 class Receta(db.Model):
     __tablename__ = 'tbl_recetas'
     idReceta = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(45))
+    precioProduccion = db.Column(db.Numeric(10, 2))
     cantidad_produccion = db.Column(db.Integer)
+    receta_ingredientes = db.relationship('RecetaIngrediente', backref='receta', lazy=True)
 
 # Tabla de Relación Receta-Ingredientes
 class RecetaIngrediente(db.Model):
@@ -93,7 +121,7 @@ class RecetaIngrediente(db.Model):
     idDetalle = db.Column(db.Integer, primary_key=True)
     idReceta = db.Column(db.Integer, db.ForeignKey('tbl_recetas.idReceta'))
     idIngrediente = db.Column(db.Integer, db.ForeignKey('tbl_materia_prima.idIngrediente'))
-    cantidad = db.Column(db.Numeric(10, 2))
+    cantidad = db.Column(db.Numeric(10, 2), nullable=False) 
 
 # Tabla de Mermas
 class Merma(db.Model):
@@ -102,8 +130,13 @@ class Merma(db.Model):
     tipo = db.Column(db.Enum('Productos', 'Insumos'), nullable=False)
     cantidad = db.Column(db.Numeric(10, 2))
     motivo = db.Column(db.Text)
+    fecha = db.Column(db.Date)
     idProducto = db.Column(db.Integer, db.ForeignKey('tbl_productos.idProducto'))
     idIngrediente = db.Column(db.Integer, db.ForeignKey('tbl_materia_prima.idIngrediente'))
+
+    producto = db.relationship('Producto', backref='mermas', lazy=True)
+
+    ingrediente = db.relationship('MateriaPrima', backref='mermas', lazy=True)
 
 # Tabla de Ganancias
 class Ganancia(db.Model):
@@ -115,3 +148,66 @@ class Ganancia(db.Model):
     utilidad_bruta = db.Column(db.Numeric(10, 2))
     gastos_operativos = db.Column(db.Numeric(10, 2))
     utilidad_neta = db.Column(db.Numeric(10, 2))
+
+class Orden(db.Model):
+    __tablename__ = 'tbl_ordenes'
+    idOrdenes = db.Column(db.Integer, primary_key=True)
+    idProveedores = db.Column(db.Integer, db.ForeignKey('tbl_proveedores.idProveedores'))   
+    estatus = db.Column(db.Enum('Entregada', 'En Proceso'), nullable=False)
+    costo = db.Column(db.Numeric(10, 2), nullable=False)
+    fecha_orden = db.Column(db.DateTime, default=db.func.current_timestamp())
+    fecha_entrega = db.Column(db.DateTime)
+    
+    proveedor = db.relationship('Proveedor', backref='ordenes')
+
+class OrdenProductos(db.Model):
+    __tablename__ = 'tbl_orden_productos'
+    idOrdenProducto = db.Column(db.Integer, primary_key=True)
+    idOrdenes = db.Column(db.Integer, db.ForeignKey('tbl_ordenes.idOrdenes'))
+    idProveedorProducto = db.Column(db.Integer, db.ForeignKey('tbl_proveedor_productos.idProveedorProducto'))
+    cantidad_solicitada = db.Column(db.Numeric(10, 2), nullable=False)    
+    costo_unitario = db.Column(db.Numeric(10, 2), nullable=False)
+    presentacion = db.Column(db.String(55), nullable=False)
+    orden = db.relationship('Orden', backref='productos')
+    producto = db.relationship('ProveedorProductos', backref='ordenes')
+    
+    
+# Tabla de Productos
+class Producto(db.Model):
+    __tablename__ = 'tbl_productos'
+    idProducto = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    tipo = db.Column(db.Enum('Piezas', 'Pre-empacada 700 gr', 'Pre-empacada 1Kg'), nullable=False)
+    precio = db.Column(db.Numeric(10, 2), nullable=False)
+    cantidad_stock = db.Column(db.Integer, nullable=False)
+    fecha_caducidad = db.Column(db.Date)
+    peso = db.Column(db.Numeric(10, 2))
+    fecha_produccion = db.Column(db.DateTime)
+    imagen = db.Column(db.String(255)) 
+    def get_id(self):
+        return str(self.idProducto)
+    
+class Carrito(db.Model):
+    __tablename__ = 'tbl_carrito'
+    
+    idCarrito = db.Column(db.Integer, primary_key=True)
+    idUsuario = db.Column(db.Integer, db.ForeignKey('tbl_usuarios.idUsuario'), nullable=False)
+    idProducto = db.Column(db.Integer, db.ForeignKey('tbl_productos.idProducto'), nullable=False)
+    imagen = db.Column(db.String(255))
+    nombre_producto = db.Column(db.String(100), nullable=False)
+    presentacion = db.Column(db.Enum('Piezas', 'Pre-empacada 700 gr', 'Pre-empacada 1Kg', name='presentacion_enum'), nullable=False)
+    cantidad = db.Column(db.Integer, nullable=False)
+    precio_unitario = db.Column(db.Numeric(10, 2), nullable=False)
+    subtotal = db.Column(db.Numeric(10, 2), nullable=False)
+    fecha_pedido = db.Column(db.DateTime, server_default=db.func.now())
+    fecha_entrega = db.Column(db.DateTime)
+    
+    def __init__(self, idUsuario, idProducto, nombre_producto, presentacion, cantidad, precio_unitario, imagen=None):
+        self.idUsuario = idUsuario
+        self.idProducto = idProducto
+        self.nombre_producto = nombre_producto
+        self.presentacion = presentacion
+        self.cantidad = cantidad
+        self.precio_unitario = float(precio_unitario)
+        self.subtotal = float(precio_unitario) * cantidad
+        self.imagen = imagen

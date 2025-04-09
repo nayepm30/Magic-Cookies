@@ -8,6 +8,7 @@
 			content="width=device-width, initial-scale=1.0"
 		/>
 		<title>MAGIC COOKIE</title>
+		<link rel="stylesheet" href="../static/css/galletas.css" />
 		<link rel="stylesheet" href="../static/css/index.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
@@ -21,11 +22,22 @@
 					</div>
 
 					<div class="container-user">
-						<span class="text" onclick="window.location.href='login'">Iniciar sesión o  crear cuenta</span>
-						<i class="fa-solid fa-user"></i>
+						{% if current_user.is_authenticated %}
+						<div class="user-dropdown" id="userDropdown">
+								<span class="name">{{ current_user.nombre }} {{ current_user.apellido }} <i class="fa-solid fa-chevron-down"></i></span>
+								<i class="fa-solid fa-user"></i>
+								<div class="dropdown-content">
+									<a href="/carrito/mis-pedidos">Mis pedidos</a>  
+									<a href="/logout">Cerrar sesión</a>
+								</div>
+							</div>
+						{% else %}
+							<span class="text" onclick="window.location.href='/login'">Iniciar sesión o crear cuenta</span>
+							<i class="fa-solid fa-user"></i>
+						{% endif %}
 						<i class="fa-solid fa-basket-shopping"></i>
 						<div class="content-shopping-cart">
-							<span class="text" onclick="window.location.href='carrito'">Carrito</span>
+							<span class="text" onclick="window.location.href='/carrito/carrito'">Carrito</span>
 							<span class="number">(0)</span>
 						</div>
 					</div>
@@ -37,19 +49,13 @@
 					<i class="fa-solid fa-bars"></i>
 					<ul class="menu">
 						<li><a href="/">Inicio</a></li>
-						<li><a href="/galletas">Galletas</a></li>
-						<li><a href="/presentaciones">Presentaciones</a></li>
-						<li><a href="#">Sobre nosotros</a></li>
-						
-						<li><a href="#">Ubicación</a></li>
+						<li><a href="/carrito/galletas">Galletas</a></li>
+						<li><a href="/carrito/sobre_nosotros">Sobre nosotros</a></li>
+						<li><a href="/carrito/ubicacion">Ubicación</a></li>
 					</ul>
-
-					<form class="search-form">
-						<input type="search" placeholder="Buscar..." />
-						<button class="btn-search">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-					</form>
+					<br>
+					<br>
+					<br>
 				</nav>
 			</div>
 		</header>
@@ -58,7 +64,7 @@
 			<div class="content-banner">
 				<p>Las mejores galletas</p>
 				<h2>100% Naturales </h2>
-				<a href="/galletas">Comprar ahora</a>
+				<a href="/carrito/galletas">Comprar ahora</a>
 			</div>
 		</section>
 
@@ -74,7 +80,7 @@
 				<div class="card-feature">
 					<i class="fa-solid fa-wallet"></i>
 					<div class="feature-content">
-						<span>Contrareembolso</span>
+						<span>Si tu pedido es cancelado, se te regresa el dinero</span>
 						<p>100% garantía de devolución de dinero</p>
 					</div>
 				</div>
@@ -85,15 +91,12 @@
 				<div class="container-categories">
 					<div class="card-category category-moca">
 						<p>Piezas</p>
-						<span>Ver más</span>
 					</div>
 					<div class="card-category category-expreso">
 						<p>Kilos/Gramos</p>
-						<span>Ver más</span>
 					</div>
 					<div class="card-category category-capuchino">
 						<p>Bolsas</p>
-						<span>Ver más</span>
 					</div>
 				</div>
 			</section>
@@ -102,146 +105,69 @@
 
 				<div class="container-options">
 					<span class="active">Destacados</span>
-					<span id="verTodos">Ver Todos</span>
+					<span id="verTodos" onclick="window.location.href='/carrito/galletas'">Ver Todos</span>
 				</div>
 				
-				<script>
-					document.getElementById("verTodos").addEventListener("click", function() {
-						window.location.href = "/galletas";
-					});
-				</script>
-				
+				<div class="cookie-products-container">
+					<!-- Producto 1 -->
+					<div class="cookie-product-card">
+						<div class="cookie-product-image">
+							<img src="{{ url_for('static', filename='img/miel.png') }}" alt="Galleta de Miel">
+						</div>
+						<div class="cookie-content-card">
+							<h3 class="cookie-product-name">Galleta de miel</h3>
+							<div class="cookie-product-actions">
+								<button class="cookie-btn-view-more" onclick="window.location.href='/carrito/galletas'">
+									Ver más
+								</button>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Producto 2 -->
+					<div class="cookie-product-card">
+						<div class="cookie-product-image">
+							<img src="{{ url_for('static', filename='img/Galleta_platanoo.png') }}" alt="Galleta de Plátano">
+						</div>
+						<div class="cookie-content-card">
+							<h3 class="cookie-product-name">Galleta de plátano</h3>
+							<div class="cookie-product-actions">
+								<button class="cookie-btn-view-more" onclick="window.location.href='/carrito/galletas'">
+									Ver más
+								</button>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Producto 3 -->
+					<div class="cookie-product-card">
+						<div class="cookie-product-image">
+							<img src="{{ url_for('static', filename='img/Galleta_almandras.png') }}" alt="Galleta de Almendras">
+						</div>
+						<div class="cookie-content-card">
+							<h3 class="cookie-product-name">Galleta de almendras</h3>
+							<div class="cookie-product-actions">
+								<button class="cookie-btn-view-more" onclick="window.location.href='/carrito/galletas'">
+									Ver más
+								</button>
+							</div>
+						</div>
+					</div>
 
-				<div class="container-products">
-
-					<div class="card-product">
-						<div class="container-img">
-							<img src="../static/img/galleta_chocolate_blanco.jpg" alt="Cafe Irish" />
-							<div class="button-group">
-								<span>
-									<i class="fa-regular fa-eye"></i>
-								</span>
-								<span>
-									<i class="fa-regular fa-heart"></i>
-								</span>
-								<span>
-									<i class="fa-solid fa-code-compare"></i>
-								</span>
-							</div>
+					<!-- Producto 4 -->
+					<div class="cookie-product-card">
+						<div class="cookie-product-image">
+							<img src="{{ url_for('static', filename='img/Galletas_frambuesaa.png') }}" alt="Galleta de Frambuesa">
 						</div>
-						<div class="content-card-product">
-							<div class="stars">
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-regular fa-star"></i>
+						<div class="cookie-content-card">
+							<h3 class="cookie-product-name">Galleta de frambuesa</h3>
+							<div class="cookie-product-actions">
+								<button class="cookie-btn-view-more" onclick="window.location.href='/carrito/galletas'">
+									Ver más
+								</button>
 							</div>
-							<h3>Galleta de chocolate blanco</h3>
-							<span class="add-cart">
-								<i class="fa-solid fa-basket-shopping"></i>
-							</span>
-							<p class="price">$4.60 </p>
 						</div>
 					</div>
-					<div class="card-product">
-						<div class="container-img">
-							<img
-								src="../static/img/galleta_canelaa.png"
-								alt="Cafe incafe-ingles.jpg"
-							/>
-							<div class="button-group">
-								<span>
-									<i class="fa-regular fa-eye"></i>
-								</span>
-								<span>
-									<i class="fa-regular fa-heart"></i>
-								</span>
-								<span>
-									<i class="fa-solid fa-code-compare"></i>
-								</span>
-							</div>
-						</div>
-						<div class="content-card-product">
-							<div class="stars">
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-regular fa-star"></i>
-								<i class="fa-regular fa-star"></i>
-							</div>
-							<h3>Galleta de canela</h3>
-							<span class="add-cart">
-								<i class="fa-solid fa-basket-shopping"></i>
-							</span>
-							<p class="price">$5.70 <span>$7.30</span></p>
-						</div>
-					</div>
-					<!--  -->
-					<div class="card-product">
-						<div class="container-img">
-							<img
-								src="../static/img/galleta_platano.png"
-								alt="Cafe Australiano"
-							/>
-							<div class="button-group">
-								<span>
-									<i class="fa-regular fa-eye"></i>
-								</span>
-								<span>
-									<i class="fa-regular fa-heart"></i>
-								</span>
-								<span>
-									<i class="fa-solid fa-code-compare"></i>
-								</span>
-							</div>
-						</div>
-						<div class="content-card-product">
-							<div class="stars">
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-							</div>
-							<h3>Galleta de plátano</h3>
-							<span class="add-cart">
-								<i class="fa-solid fa-basket-shopping"></i>
-							</span>
-							<p class="price">$3.20</p>
-						</div>
-					</div>
-					<div class="card-product">
-						<div class="container-img">
-							<img src="../static/img/galletas_cafee.png" alt="Cafe Helado" />
-							<div class="button-group">
-								<span>
-									<i class="fa-regular fa-eye"></i>
-								</span>
-								<span>
-									<i class="fa-regular fa-heart"></i>
-								</span>
-								<span>
-									<i class="fa-solid fa-code-compare"></i>
-								</span>
-							</div>
-						</div>
-						<div class="content-card-product">
-							<div class="stars">
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-regular fa-star"></i>
-							</div>
-							<h3>Galleta de café</h3>
-							<span class="add-cart">
-								<i class="fa-solid fa-basket-shopping"></i>
-							</span>
-							<p class="price">$5.60</p>
-						</div>
-					</div>
-				</div>
 			</section>
 
 			<section class="gallery">
@@ -271,132 +197,66 @@
 			<section class="container specials">
 				<h1 class="heading-1">Galletas Especiales</h1>
 
-				<div class="container-products">
+				<div class="cookie-products-container">
 					<!-- Producto 1 -->
-					<div class="card-product">
-						<div class="container-img">
-							<img src="../static/img/galleta_menta.png" alt="Cafe Irish" />
-							<div class="button-group">
-								<span>
-									<i class="fa-regular fa-eye"></i>
-								</span>
-								<span>
-									<i class="fa-regular fa-heart"></i>
-								</span>
-								<span>
-									<i class="fa-solid fa-code-compare"></i>
-								</span>
-							</div>
+					<div class="cookie-product-card">
+						<div class="cookie-product-image">
+							<img src="{{ url_for('static', filename='img/miel.png') }}" alt="Galleta de Miel">
 						</div>
-						<div class="content-card-product">
-							<div class="stars">
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-regular fa-star"></i>
+						<div class="cookie-content-card">
+							<h3 class="cookie-product-name">Galleta de miel</h3>
+							<div class="cookie-product-actions">
+								<button class="cookie-btn-view-more" onclick="window.location.href='/carrito/galletas'">
+									Ver más
+								</button>
 							</div>
-							<h3>Galleta de menta</h3>
-							<span class="add-cart">
-								<i class="fa-solid fa-basket-shopping"></i>
-							</span>
-							<p class="price">$4.60</p>
 						</div>
 					</div>
-					<div class="card-product">
-						<div class="container-img">
-							<img
-								src="../static/img/galleta_cacahuate.png"
-								alt="Cafe incafe-ingles.jpg"
-							/>
-							<div class="button-group">
-								<span>
-									<i class="fa-regular fa-eye"></i>
-								</span>
-								<span>
-									<i class="fa-regular fa-heart"></i>
-								</span>
-								<span>
-									<i class="fa-solid fa-code-compare"></i>
-								</span>
-							</div>
+					
+					<!-- Producto 2 -->
+					<div class="cookie-product-card">
+						<div class="cookie-product-image">
+							<img src="{{ url_for('static', filename='img/Galleta_platanoo.png') }}" alt="Galleta de Plátano">
 						</div>
-						<div class="content-card-product">
-							<div class="stars">
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-regular fa-star"></i>
-								<i class="fa-regular fa-star"></i>
+						<div class="cookie-content-card">
+							<h3 class="cookie-product-name">Galleta de plátano</h3>
+							<div class="cookie-product-actions">
+								<button class="cookie-btn-view-more" onclick="window.location.href='/carrito/galletas'">
+									Ver más
+								</button>
 							</div>
-							<h3>Galleta de cacahuate</h3>
-							<span class="add-cart">
-								<i class="fa-solid fa-basket-shopping"></i>
-							</span>
-							<p class="price">$5.70 </p>
 						</div>
 					</div>
-					<div class="card-product">
-						<div class="container-img">
-							<img src="../static/img/galleta_frambuesa.png" alt="Cafe Viena" />
-							<div class="button-group">
-								<span>
-									<i class="fa-regular fa-eye"></i>
-								</span>
-								<span>
-									<i class="fa-regular fa-heart"></i>
-								</span>
-								<span>
-									<i class="fa-solid fa-code-compare"></i>
-								</span>
-							</div>
+					
+					<!-- Producto 3 -->
+					<div class="cookie-product-card">
+						<div class="cookie-product-image">
+							<img src="{{ url_for('static', filename='img/Galleta_almandras.png') }}" alt="Galleta de Almendras">
 						</div>
-						<div class="content-card-product">
-							<div class="stars">
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
+						<div class="cookie-content-card">
+							<h3 class="cookie-product-name">Galleta de almendras</h3>
+							<div class="cookie-product-actions">
+								<button class="cookie-btn-view-more" onclick="window.location.href='/carrito/galletas'">
+									Ver más
+								</button>
 							</div>
-							<h3>Galleta de frambuesa</h3>
-							<span class="add-cart">
-								<i class="fa-solid fa-basket-shopping"></i>
-							</span>
-							<p class="price">$3.85</p>
 						</div>
 					</div>
-					<div class="card-product">
-						<div class="container-img">
-							<img src="../static/img/galletas_almendras.jpg" alt="Cafe Liqueurs" />
-							<div class="button-group">
-								<span>
-									<i class="fa-regular fa-eye"></i>
-								</span>
-								<span>
-									<i class="fa-regular fa-heart"></i>
-								</span>
-								<span>
-									<i class="fa-solid fa-code-compare"></i>
-								</span>
-							</div>
+
+					<!-- Producto 4 -->
+					<div class="cookie-product-card">
+						<div class="cookie-product-image">
+							<img src="{{ url_for('static', filename='img/Galletas_frambuesaa.png') }}" alt="Galleta de Frambuesa">
 						</div>
-						<div class="content-card-product">
-							<div class="stars">
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-regular fa-star"></i>
+						<div class="cookie-content-card">
+							<h3 class="cookie-product-name">Galleta de frambuesa</h3>
+							<div class="cookie-product-actions">
+								<button class="cookie-btn-view-more" onclick="window.location.href='/carrito/galletas'">
+									Ver más
+								</button>
 							</div>
-							<h3>Galleta de almendras</h3>
-							<span class="add-cart">
-								<i class="fa-solid fa-basket-shopping"></i>
-							</span>
-							<p class="price">$5.60</p>
 						</div>
 					</div>
-				</div>
 			</section>
 		</main>
 
@@ -459,5 +319,6 @@
 				</div>
 			</div>
 		</footer>
+		<script src="../static/js/despliegue.js"></script>
 	</body>
 </html>

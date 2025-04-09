@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+<br><br>
+ 
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8">  
+    <h2 class="form-title">Historial de ventas</h2>  
+    <center>
+        <div class="container mt-20">  
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div role="alert">
+                            {{ message }}                        
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        </center>
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Numero de venta</th>
+                <th class="px-4 py-2 border-b">Fecha</th>
+                <th class="px-4 py-2 border-b">Total</th>                            
+                <th class="px-4 py-2 border-b"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venta in ventas %}
+                <tr>                  
+                    <td>{{ venta.idVenta }}</td>
+                    <td>{{ venta.fecha }}</td>
+                    <td>$ {{ venta.total }}</td> <!-- Aquí puedes mostrar el total de la venta si está disponible -->
+                    <td>
+                        <form action="{{ url_for('ventas.detallesVenta') }}" method="POST">                             
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />   
+
+                            <input type="hidden" name="idVenta" value="{{ venta.idVenta }}">
+                            <button type="submit" class="text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5">
+                                Detalles
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <!--
+               
+                -->
+            {% endfor %}
+        </tbody>
+    </table>                    
+</div>
+{% endblock %}

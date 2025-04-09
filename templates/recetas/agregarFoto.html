@@ -1,0 +1,47 @@
+
+{% extends "layout.html" %}
+{% block content %}
+{% import "_macros.html" as macros %}
+<br><br>
+
+<div class="form-container max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h2 class="form-title mb-6">Agregar foto del producto</h2>
+
+    <center>
+    <div class="container mt-20">  
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="mb-4 text-sm text-white px-4 py-2 rounded {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    </center>
+
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+        <div class="grid grid-cols-1 mb-6">
+            <div class="relative z-0 w-full group">
+                <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                    Imagen del producto
+                </label>
+                {{ macros.campoNuevo(form.imagen, class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent appearance-none border-0 border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600 peer") }}
+            </div>
+        </div>
+
+        <div class="flex gap-4">
+            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+                Guardar imagen
+            </button>
+            <a href="{{ url_for('recetas.cancelar') }}" class="text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

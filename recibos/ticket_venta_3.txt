@@ -1,0 +1,7 @@
+Ticket de Venta - ID: 3
+Fecha: 2025-04-07
+
+Productos Vendidos:
+15.0 x Galleta de Canela - $202.65
+
+Total Venta: $202.65

@@ -1,0 +1,8 @@
+Ticket de Venta - ID: 15
+Fecha: 2025-04-03
+
+Productos Vendidos:
+80.0 x Galleta Choco - $3200.0
+50.0 x Galleta Vainilla - $3500.0
+
+Total Venta: $6700.00

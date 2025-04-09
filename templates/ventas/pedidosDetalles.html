@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+{% block content %}
+{% import "_macros.html" as macros %}
+<br><br>
+{% if pedido.estatus == 'Pendiente' %}   
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8">  
+    <h2 class="form-title">Pedidos</h2>    
+    <center>
+    <div class="container mt-20">  
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div role="alert">
+                        {{ message }}                        
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    </center>
+    <br> 
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Cliente</th>
+                <th class="px-4 py-2 border-b">Fecha del pedido</th>
+                <th class="px-4 py-2 border-b">Fecha de entrega</th>
+                <th class="px-4 py-2 border-b">Estatus</th>
+                <th class="px-4 py-2 border-b"></th>                
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+                <td>{{ pedido.fecha_pedido }}</td>
+                <td>{{ pedido.fecha_entrega }}</td>
+                <td>{{ pedido.estatus }}</td>
+                <td>                                        
+                    <div class="flex flex-row gap-2">
+                        <a href="{{ url_for('ventas.pedidos')}}" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Volver
+                        </a>
+                        <form action="{{ url_for('ventas.cancelarPedido') }}" method="POST">                             
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />   
+                        
+                            <input type="hidden" name="idPedido" value="{{ pedido.idPedidos }}">
+                            <button type="submit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                Cancelar
+                            </button>
+                        </form>
+                        <form action="{{ url_for('ventas.entregarPedido') }}" method="POST">                             
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />   
+                        
+                            <input type="hidden" name="idPedido" value="{{ pedido.idPedidos }}">
+                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Entregar
+                            </button>
+                        </form>
+                    </div>             
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    
+    <table class="w-full text-sm text-left text-gray-900 mt-8">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Producto</th>
+                <th class="px-4 py-2 border-b">Tipo</th>
+                <th class="px-4 py-2 border-b">Cantidad disponible</th>
+                <th class="px-4 py-2 border-b">Cantidad solicitada</th>
+                <th class="px-4 py-2 border-b">Precio</th>
+                <th class="px-4 py-2 border-b">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles_pedido %}
+            <tr>
+                <td>{{ detalle.producto.nombre }}</td>
+                <td>{{ detalle.producto.tipo }}</td>
+                <td>{{ detalle.producto.cantidad_stock }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>{{ detalle.producto.precio }}</td>
+                <td>{{ detalle.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <!-- Total -->
+    <div class="flex justify-end mt-4">
+        <strong>Total: </strong> {{ total }}
+    </div>
+</div>
+{% endif %} 
+{% if pedido.estatus != 'Pendiente' %}   
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8">  
+    <h2 class="form-title">Pedidos</h2>        
+    <br> 
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Cliente</th>
+                <th class="px-4 py-2 border-b">Fecha del pedido</th>
+                <th class="px-4 py-2 border-b">Fecha de entrega</th>
+                <th class="px-4 py-2 border-b">Estatus</th>
+                <th class="px-4 py-2 border-b"></th>                
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+                <td>{{ pedido.fecha_pedido }}</td>
+                <td>{{ pedido.fecha_entrega }}</td>
+                <td>{{ pedido.estatus }}</td>
+                <td>                                        
+                    <div class="flex flex-row gap-2">
+                        <a href="{{ url_for('ventas.pedidos')}}" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Volver
+                        </a>                                           
+                    </div>             
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    
+    <table class="w-full text-sm text-left text-gray-900 mt-8">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Producto</th>
+                <th class="px-4 py-2 border-b">Tipo</th>
+                <th class="px-4 py-2 border-b">Cantidad disponible</th>
+                <th class="px-4 py-2 border-b">Cantidad solicitada</th>
+                <th class="px-4 py-2 border-b">Precio</th>
+                <th class="px-4 py-2 border-b">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles_pedido %}
+            <tr>
+                <td>{{ detalle.producto.nombre }}</td>
+                <td>{{ detalle.producto.tipo }}</td>
+                <td>{{ detalle.producto.cantidad_stock }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>{{ detalle.producto.precio }}</td>
+                <td>{{ detalle.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <!-- Total -->
+    <div class="flex justify-end mt-4">
+        <strong>Total: </strong> {{ total }}
+    </div>
+</div>
+{% endif %} 
+{% endblock %}

@@ -1,104 +1,107 @@
 {% extends "layout.html" %}
-
 {% block content %}
-<h1>Ordenar</h1>
-<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
-    <h2>Ordenar</h2>
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="py-2 px-4 border-b">Producto</th>
-                    <th class="py-2 px-4 border-b">Cantidad</th>
-                    <th class="py-2 px-4 border-b">Presentación</th>
-                    <th class="py-2 px-4 border-b">Costo</th>
-                    <th class="py-2 px-4 border-b">Disponibilidad</th>
-                    <th class="py-2 px-4 border-b">Ordenar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
-                    <td class="py-2 px-4 border-b">10</td>
-                    <td class="py-2 px-4 border-b">Litros</td>
-                    <td class="py-2 px-4 border-b">$50</td>
-                    <td class="py-2 px-4 border-b">Disponible</td>
-                    <td class="py-2 px-4 border-b">
-                        <button class="order-btn">Ordenar</button>
-                    </td>
-                </tr>
-                 <tr>
-                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
-                    <td class="py-2 px-4 border-b">10</td>
-                    <td class="py-2 px-4 border-b">Litros</td>
-                    <td class="py-2 px-4 border-b">$50</td>
-                    <td class="py-2 px-4 border-b">Se esta agotando</td>
-                    <td class="py-2 px-4 border-b">
-                        <button class="order-btn">Ordenar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
-                    <td class="py-2 px-4 border-b">10</td>
-                    <td class="py-2 px-4 border-b">Litros</td>
-                    <td class="py-2 px-4 border-b">$50</td>
-                    <td class="py-2 px-4 border-b">No disponible</td>
-                    <td class="py-2 px-4 border-b">
-                        <button class="order-btn">Ordenar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+{% import "_macros.html" as macros %}
+<br><br>
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8"> 
+    <h2 class="form-title">Realizar pedido a proveedores</h2>    
+    <center>
+    <div class="container mt-20">  
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div role="alert">
+                        {{ message }}                        
+                    </div>
+                {% endfor %}
+            {% endif %} 
+        {% endwith %}
+    </div> 
+    </center>
+    <br> 
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Proveedor</th>
+                <th class="px-4 py-2 border-b">Teléfono</th>
+                <th class="px-4 py-2 border-b">Dirección</th>                
+                <th class="px-4 py-2 border-b"></th>            
+                <th class="px-4 py-2 border-b"></th>                
+            </tr>
+        </thead>
+        <tbody>
+            {% for proveedor in proveedores %}            
+            <tr>                
+                <td>{{ proveedor.nombre }}</td>  
+                <td>{{ proveedor.telefono }}</td>  
+                <td>{{ proveedor.direccion }}</td>     
+                <td></td>            
+                <td>      
+                    <div class="flex flex-row gap-2">
+                        <form action="{{ url_for('proveedores.guardarProveedor') }}" method="POST">                             
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />   
+                            <input type="hidden" name="idProveedores" value="{{ proveedor.idProveedores }}">
+                            <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                Realizar pedido
+                            </button>
+                        </form>                                               
+                    </div>              
+                </td>
+            </tr>            
+            {% endfor %}
+        </tbody>
+    </table>                     
 </div>
 
-<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
-    <h2>Ordenar</h2>
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="py-2 px-4 border-b">Producto</th>
-                    <th class="py-2 px-4 border-b">Cantidad</th>
-                    <th class="py-2 px-4 border-b">Presentación</th>
-                    <th class="py-2 px-4 border-b">Costo</th>
-                    <th class="py-2 px-4 border-b">Disponibilidad</th>
-                    <th class="py-2 px-4 border-b">Ordenar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
-                    <td class="py-2 px-4 border-b">10</td>
-                    <td class="py-2 px-4 border-b">Litros</td>
-                    <td class="py-2 px-4 border-b">$50</td>
-                    <td class="py-2 px-4 border-b">Disponible</td>
-                    <td class="py-2 px-4 border-b">
-                        <button class="order-btn">Ordenar</button>
-                    </td>
-                </tr>
-                 <tr>
-                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
-                    <td class="py-2 px-4 border-b">10</td>
-                    <td class="py-2 px-4 border-b">Litros</td>
-                    <td class="py-2 px-4 border-b">$50</td>
-                    <td class="py-2 px-4 border-b">Se esta agotando</td>
-                    <td class="py-2 px-4 border-b">
-                        <button class="order-btn">Ordenar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="py-2 px-4 border-b">Ejemplo Producto</td>
-                    <td class="py-2 px-4 border-b">10</td>
-                    <td class="py-2 px-4 border-b">Litros</td>
-                    <td class="py-2 px-4 border-b">$50</td>
-                    <td class="py-2 px-4 border-b">No disponible</td>
-                    <td class="py-2 px-4 border-b">
-                        <button class="order-btn">Ordenar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8"> 
+    <h2 class="text-lg font-semibold">Órdenes realizadas</h2>
+    <table class="table-auto w-full mt-4 border">
+        <thead>
+            <tr>
+                <th>Proveedor</th>
+                <th>Fecha</th>
+                <th>Estatus</th>
+                <th>Costo Total</th>
+                <th>Productos</th>
+                <th colspan="2">Fecha de caducidad</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for orden in ordenes %}
+            <tr class="border-t">
+                <td>{{ orden.proveedor.nombre }}</td>
+                <td>{{ orden.fecha_orden.strftime('%d-%m-%Y %H:%M') }}</td>
+                <td>{{ orden.estatus }}</td>
+                <td>${{ orden.costo }}</td>
+                <td>
+                    <ul>
+                        {% for item in orden.productos %}
+                            <li>
+                                {{ item.producto.nombre_producto }} - {{ item.cantidad_solicitada }} {{ item.presentacion }} ${{ item.costo_unitario }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td colspan="2">
+                    <form action="{{ url_for('proveedores.ordenarRecibir') }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="idOrdenes" value="{{ orden.idOrdenes }}">
+
+                        {% for item in orden.productos %}
+                        <div class="mb-2">
+                            <label for="fecha_caducidad_{{ item.idOrdenProducto }}">{{ item.producto.nombre_producto }}:</label>
+                            <input type="date" id="fecha_caducidad_{{ item.idOrdenProducto }}" name="fecha_caducidad_{{ item.idOrdenProducto }}" class="form-control" required>
+                        </div>
+                        {% endfor %}
+
+                        <button type="submit" class="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Recibir
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>        
 </div>
 {% endblock %}

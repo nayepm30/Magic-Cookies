@@ -1,12 +1,15 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_required, current_user
-from models import *
-import forms
+from flask import Blueprint, render_template
+from models import MateriaPrima, Proveedor, db
+import datetime
+from flask_login import login_required
+from utils import role_required
 
 materia = Blueprint('materia', __name__)
 
 @materia.route("/materiasPrimas", methods=['GET', 'POST'])
-# cuando este terminado el login y no se necesiten hacer pruebas poner ->@login_required
+@login_required
+@role_required('Cocinero', 'Administrador')
 def funcion():
-    
-    return render_template("materiasPrimas.html")
+    materias_primas = db.session.query(MateriaPrima, Proveedor).join(Proveedor, MateriaPrima.idProveedores == Proveedor.idProveedores).all()
+
+    return render_template("materiasPrimas/materiasPrimas.html",materias_primas=materias_primas,datetime=datetime)  

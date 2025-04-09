@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% import "_macros.html" as macros %}
+<br><br>
+
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8">  
+    <h2 class="form-title">Detalles de la Venta</h2>    
+    <center>
+    <div class="container mt-20">  
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div role="alert">
+                        {{ message }}                        
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    </center>
+    <br> 
+
+    <!-- Información de la venta -->
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>                
+                <th class="px-4 py-2 border-b">Fecha de la venta</th>
+                <th class="px-4 py-2 border-b">Total</th>                                         
+                <th class="px-4 py-2 border-b"></th>                                         
+            </tr>
+        </thead>
+        <tbody>
+            <tr>                
+                <td>{{ venta.fecha }}</td>
+                <td>$ {{ total }}</td>      
+                <td>
+                    <a href="{{ url_for('ventas.historialMini')}}" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        Volver
+                    </a>
+                </td>                       
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <!-- Detalles de la venta -->
+    <table class="w-full text-sm text-left text-gray-900 mt-8">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Producto</th>
+                <th class="px-4 py-2 border-b">Tipo</th>                
+                <th class="px-4 py-2 border-b">Cantidad vendida</th>
+                <th class="px-4 py-2 border-b">Precio</th>
+                <th class="px-4 py-2 border-b">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles_venta %}
+            <tr>
+                <td>{{ detalle.producto.nombre }}</td>
+                <td>{{ detalle.producto.tipo }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>$ {{ detalle.producto.precio }}</td>
+                <td>$ {{ detalle.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

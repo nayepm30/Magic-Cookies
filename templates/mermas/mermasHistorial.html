@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+<br><br>
+{% if mermas_detalles %}
+<div class="table-container max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md mt-8">
+    <table class="w-full text-sm text-left text-gray-900">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border-b">Tipo</th>
+                <th class="px-4 py-2 border-b">Producto / Ingrediente</th>
+                <th class="px-4 py-2 border-b">Cantidad</th>
+                <th class="px-4 py-2 border-b">Motivo</th>
+                <th class="px-4 py-2 border-b">Fecha</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in mermas_detalles %}
+                <tr>
+                    <td>{{ detalle['merma'].tipo }}</td>
+                    {% if detalle['producto'] %}
+                        <td>{{ detalle['producto'].nombre }}</td>
+                    {% elif detalle['ingrediente'] %}
+                        <td>{{ detalle['ingrediente'].nombre }}</td>
+                    {% else %}
+                        <td colspan="2">Sin Producto o Ingrediente Asociado</td>
+                    {% endif %}
+                    <td>{{ detalle['merma'].cantidad }}</td>
+                    <td>{{ detalle['merma'].motivo }}</td>   
+                    <td>{{ detalle['merma'].fecha }}</td>                                        
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<br><br>
+    <p class="text-center text-gray-500">No hay registros de mermas en este momento.</p>
+{% endif %}
+{% endblock %}
+ 

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ubicación - Magic Cookies</title>
+    <link rel="stylesheet" href="../static/css/index.css" />
+    <link rel="stylesheet" href="../static/css/ubicacion.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <div class="container-hero">
+            <div class="container hero">
+                <div class="container-logo">
+                    <img src="{{ url_for('static', filename='img/logo4sinfondo.png') }}" alt="logo">
+                    <h1 class="logo"><a href="/">MAGIC COOKIES</a></h1>
+                </div>
+
+                <div class="container-user">
+                    {% if current_user.is_authenticated %}
+                        <span class="name">{{ current_user.nombre }} {{ current_user.apellido }}</span>
+                        <i class="fa-solid fa-user"></i>
+                    {% else %}
+                        <span class="text" onclick="window.location.href='/login'">Iniciar sesión o crear cuenta</span>
+                        <i class="fa-solid fa-user"></i>
+                    {% endif %}
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <div class="content-shopping-cart">
+                        <span class="text" onclick="window.location.href='/carrito/carrito'">Carrito</span>
+                        <span class="number">(0)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-navbar">
+            <nav class="navbar container">
+                <i class="fa-solid fa-bars"></i>
+                <ul class="menu">
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/carrito/galletas">Galletas</a></li>
+                    <li><a href="/carrito/sobre_nosotros">Sobre nosotros</a></li>
+                    <li><a href="/carrito/ubicacion">Ubicación</a></li>
+                </ul>
+
+                <br>
+					<br>
+					<br>
+            </nav>
+        </div>
+    </header>
+
+    <main class="location-container">
+        <section class="location-info">
+            <div class="container">
+                <div class="location-content">
+                    <div class="location-details">
+                        <h2>Nuestra Ubicación</h2>
+                        <div class="address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Universidad Tecnológica de León<br>
+                            Blvd. Universidad Tecnológica 225,<br>
+                            San Carlos, 37670 León, Gto.</p>
+                        </div>
+                        
+                        <h2>Horario de Atención</h2>
+                        <div class="schedule">
+                            <div class="day">
+                                <span>Lunes a Viernes</span>
+                                <span>9:00 am - 9:00 pm</span>
+                            </div>
+                            <div class="day">
+                                <span>Sábados y Domingos</span>
+                                <span>10:00 am - 3:00 pm</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <h2>Contacto</h2>
+                            <p><i class="fas fa-phone"></i> (477) 123 4567</p>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container">
+                        <h1>Nuestra Ubicación</h1>
+                        <div class="map-frame">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29785.85604088727!2d-101.5816410794577!3d21.06339398327117!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842b963652f40f0d%3A0xa7d88da0ad8eff8a!2sUniversidad%20Tecnol%C3%B3gica%20de%20Le%C3%B3n!5e0!3m2!1ses!2smx!4v1744003809734!5m2!1ses!2smx" 
+                                width="100%" 
+                                height="450" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <style>
+        .location-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../static/img/location-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .location-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .location-hero p {
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .location-info {
+            padding: 60px 0;
+        }
+
+        .location-content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .location-details {
+            flex: 1;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .location-details h2 {
+            font-size: 2rem;
+            color: #d4a373;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f5e8d9;
+        }
+
+        .address {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .address i {
+            font-size: 1.5rem;
+            color: #d4a373;
+            margin-top: 5px;
+        }
+
+        .address p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .schedule {
+            margin-bottom: 30px;
+        }
+
+        .day {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .day:last-child {
+            border-bottom: none;
+        }
+
+        .day span {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .contact-info i {
+            color: #d4a373;
+            width: 20px;
+            text-align: center;
+        }
+
+        .location-map {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .location-content {
+                flex-direction: column;
+            }
+            
+            .location-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .location-hero p {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</body>
+</html>
